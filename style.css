@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya:400,400i,700|Monda:400,700&display=swap');
+
+.book.font-family-0 {font-family: 'Alegreya', serif;}
+.book.font-family-1 {font-family: 'Helvetica', sans-serif;}
+
+.book .book-body .page-wrapper .page-inner {
+  font-family: 'Alegreya', serif;
+  font-size: 1em;
+  font-weight: 400;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Monda', sans-serif;
+}
+h1{
+  font-size: 2em;
+}
+h2,h3,h4,h5,h6{
+  font-size: 1.5em;
+}
+.title {
+  font-size: 3em;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2vw;
+}
+.author {
+  font-style: italic;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 1;
+}
+.date {
+  font-style: italic;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Bookdown defaults */
+p.caption {
+  color: #777;
+  margin-top: 10px;
+}
+p code {
+  white-space: inherit;
+}
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+pre code {
+  white-space: inherit;
+}

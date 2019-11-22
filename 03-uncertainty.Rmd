@@ -1,0 +1,32 @@
+# Uncertainty
+
+Mean values are often reported directly together with the standard deviation. The standard deviation denotes the amount of variation of a set of values. If a set of values lie close together, the certainty that the mean is accurate is quite high, since there's little variation. If there's a larger variation in the values, the standard deviation is larger. Standard devation can be calculated in R via the function `sd()`.
+
+```{r}
+sd(data$scores)
+```
+
+The standard devation of the scores is about `2.7`. Let's say that, for the purpose of this experiment, you ask a group of high-school students to take the same test. Not suprisingly, they all did quite well. 
+
+```{r echo=FALSE}
+data_highschool <- data.frame(
+  names = c("Alex", "Solveig", "Ivar", "Yasmin", "Tobbe"),
+  scores = c(8.5, 9, 8.5, 9.5, 8)
+)
+```
+
+```{r}
+print(data_highschool)
+```
+
+The standard deviation of the second dataset is less than `0.6`. This reflects that the variation in the second dataset is much lower, since the scores are closer together. A low standard deviation by definition means that the range of values lie close to the mean. The standard deviation says something about the values and the dataset.
+
+A way to measure the (un)certainty of a statistic, such as the mean, is the standard error (fully called the "standard error of the mean"). The standard error makes claims about the variance in the statistic, in this case the mean. In simplified terms, the standard error is the answer to the question "how accurate is this mean?". Since it transcends the measured data, the standard error estimates how close the mean of your measured data reflects the mean of the whole sample. Let's say that these 5 students are selected from a larger group of 20 students, then the standard error of the mean of these 5 exams, indicates how uncertain you are that then you measure all 20 students, you would obtain the same mean.
+
+While separate, the standard deviation and the standard error are linked. For instance, you can calculate the standard error by just using the standard deviation and the number of samples. The formula for is the standard deviation divided by the square root of the number of observations. In R code this will be `sd(x)/sqrt(length(x))` where `x` is the column with observations. The `length()` of `x` in this case will yield the number 5, since that's the number of observations we have in this dataset. With this formula, we can calculate the standard error for the test scores from our primary school students.
+
+```{r}
+sd(data$scores)/sqrt(length(data$scores))
+```
+
+Since we have only 5 students, the standard error is quite large, since we can't be very certain that the mean of a larger group of students will be the same.

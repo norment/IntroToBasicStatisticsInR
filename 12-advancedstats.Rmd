@@ -1,0 +1,135 @@
+# Appendix: semi-advanced statistics
+
+Here I'll go more in-depth into some concepts I think are important. I'll probably dive deeper into the process underneath some statistical tests, in particular ANOVA, since it's so often done misunderstood.
+
+## ANOVA
+
+Here I want to go into some of the intricacies of the repeated-measures ANOVA I'll go through some of the assumptions, and describe the operations underlying the ANOVA. This section is based on an online lecture and tutorial by Andrew Conway. We'll first calculate every manually, (i.e. sum of squares, mean squares etc.) so that we get the F statistic and the p-value. At the end of this long paragraph, I'll show how to get the same results in one or two lines of code. But of course the purpose of this paragraph is to lay out some of the underlying statistics beneath ANOVA, as to understand better what the output of any ANOVA is were we to run it like we do commonly. Let's say we ran a longitudunal study, where we train a group of people to perform a difficult task, which is scored from 0 to 10. The data is stored in a variable called `data`.
+
+```{r echo=FALSE}
+data <- data.frame(
+  id = factor(rep(1:20,4)),
+  condition = factor(rep(sprintf("%s days", c(8,12,17,19)), each = 20), levels = sprintf("%s days", c(8,12,17,19))),
+  score = c(6.20, 5.90, 7.30, 3.85, 7.85, 5.80, 3.50, 4.20, 5.35, 5.30, 2.70, 6.15, 4.65, 5.50, 5.95, 7.05, 6.05, 6.60, 4.40, 4.80, 6.25, 5.80, 4.45, 4.15, 5.45, 6.70, 6.15, 4.35, 4.85, 4.85, 3.45, 5.25, 5.80, 6.90, 7.80, 5.85, 8.05, 5.85, 7.50, 7.55, 6.70, 4.90, 6.60, 6.40, 9.05, 6.90, 7.25, 8.60, 7.10, 5.20, 6.00, 8.70, 6.40, 6.25, 7.30, 7.80, 6.60, 5.60, 7.70, 8.00, 7.00, 8.50, 5.20, 5.65, 9.45, 8.35, 6.95, 9.60, 7.10, 5.75, 7.75, 6.25, 8.05, 5.55, 8.05, 7.60, 7.70, 8.40, 6.75, 7.85)
+)
+```
+
+Let's say we tested 20 individuals, and we investigated how their test scores improved after 8, 12, 17, and 19 days of training. Here's the summary of the data that we have:
+
+```{r}
+summary(data)
+```
+
+One of the assumptions of a repeated-measures ANOVA is the assumption of sphericity. Sphericity in this context means that the amount of variance of the differences (i.e difference in test scores) between all possible comparisons of within-subject conditions (i.e. days of training) is equal. We use the Mauchly's Test to test this assumption. This test is implemented in R as the `mauchly.test()` fuction. In order to test this assumption, we need a little matrix with the participants along the rows, and the test scores as values inside separate columns. In our case we'll have a 20 x 4 matrix. Let's create that with the `pivot_wider()` function. This takes the condition levels (i.e. the new column names) and adds every level as a column. The score (aka value) is entered as values in these columns. As default, it also carries over the `id` column, which we dont want, so we deselect it with the `select()` function, and then we convert it from a data frame to a matrix using the `as.matrix()` function.
+
+```{r}
+score_matrix <- data %>%
+  pivot_wider(names_from = condition, values_from = score) %>%
+  select(-"id") %>%
+  as.matrix()
+```
+
+Then, since the `mauchly.test()` function requires a linear model as input, we first need to create that. We take the matrix with the scores, and add it into an `lm()` function. Since we don't want to run it against anything else, we run the `lm` by 1 (which incidentally is equivalent to running a T-test, but that's a story for another time). Then we add the linear model into the `mauchly.test()` function, and specify that we ran it against 1 in the `x` option.
+
+```{r}
+lm_model <- lm(score_matrix ~ 1)
+mauchly.test(lm_model, x = ~ 1)
+```
+
+If the Mauchly test is significant, then we know that our data is significantly different from the assumption of sphericity, we we want a non-signficicant result on this test. In this case, the p-value is 0.9407, which means that we can assume that we meet the assumption of sphericity, and can proceed. If this test would come up significant, then we'd have to add a correction to the futher analysis, typically a Greenhouse-Geisser correction or a Huyn-Feldt correction. The Greenhouse-Geisser correction is incorporated in the `{afex}` package.
+
+From here, running a repeated measures is quite simple with the functions available in R, but the purpose of this paragraph is to do it manually, so below we'll calculate the F-ratio ourselves. The first thing we need for this is the variance of the grouping condition, or the between-groups variance. We calculate the sum of squares, which is the number of participants multiplied by the sum of the group mean minus the overall mean, squared. This is easier explained in a formula where y<sub>j</sub> (j stands for the number of levels) is the group mean and the other y is the overall mean across conditions and n is the number of pariticpants.
+
+$$ss_{a} = n\sum (y_{j} - \overline{y})^2$$
+
+We can translate this formula to R as follows. In summary, first we determine the number of participants (which we know, but it's good practice to make it more dynamic). Then we calculate the group means by grouping the data variable and calulating the mean score for each level of the condition. This will give us a data frame with the condition as one column, and the mean score in another column called `y_j`. Then we calculate the sum of squares by translating the formula above into R code.
+
+```{r}
+n <- length(unique(data$id)) # number of participants in dataset
+group_means <- data %>% 
+  group_by(condition) %>% # group by condition
+  summarise(y_j = mean(score)) # calculate group means
+y_mean <- mean(group_means$y_j) # calculate mean of group means
+
+ss_cond <- n * sum((group_means$y_j - y_mean)^2)
+```
+
+The sum of squares now represents the systematic between-groups variance. Then we can calculate the mean squares, which represents systematic variance. The formula for this is simply the sum of squares we calculated before divided by the degrees of freedom of the condition, which is the number of levels inside the condition minus one. The formula looks like this:
+
+$$ms_{a} = \frac{ss_{a}}{df_{a}}$$
+
+We already calculated the sum of squares, the degree of freedoms is one less than the number of levels inside the condition, so the formula for this in R is simple:
+
+```{r}
+df_cond <- length(unique(data$condition)) - 1
+ms_cond <- ss_cond/df_cond
+```
+
+The `ms_a` variable now contains the value that represents the systematic variance based on the condition. Now, since we want to do a repeated-measures ANOVA, we also need to incorporate the error associated with the individual participants that is inevitable when testing them on different time points. So now we'll do the same we did earlier, but now calculating the sum of squares and mean squares to calculate the variance associated with the participants. We'll use the same formula, but instead we now use the number of levels in the condition as the `n`, and the degrees of freedom (`df_p`) is one less than the number of pariticpants. Notice the differences between the code below and the code above.
+
+```{r}
+n <- length(unique(data$condition))
+participant_means <- data %>% 
+  group_by(id) %>% # group by participant
+  summarise(y_j = mean(score)) # calculate group means
+y_mean <- mean(participant_means$y_j) # calculate mean of participant means
+
+ss_p <- n * sum((participant_means$y_j - y_mean)^2)
+
+df_p <- length(unique(data$id)) - 1
+ms_p <- ss_p/df_p
+```
+
+We now have the systematic variance due to participants, this will serve as the error term later on. Now we also need to think about the unsystematic variance in the data. This is the unsystematic within-group variance. We calculate the mean score by group and then subtract that from the individual scores.
+
+```{r}
+data <- data %>%
+  group_by(condition) %>%
+  mutate(meany_i = mean(score))
+```
+
+Then we calculate the within-groups sum of squares and the mean squares like we did before. The degrees of freedom in this case is the number of levels (the exact number, not one less!) multiplied by the number of pariticpants minus one.
+
+```{r}
+ss_pa <- sum((data$score - data$meany_i)^2)
+
+df <- length(unique(data$condition)) * (length(unique(data$id)) - 1)
+ms_sa <- ss_pa/df
+```
+
+But then we still don't have the unsystematic variance for the error term, but we do have all the ingredients. In order to calculate this, we simply subtract the systematic variance between participants from the between-groups sum of squares. And then we can use that to calculate the mean squares for this, commonly referred to as the error term. The degrees of freedom in this formula is equal to the number of levels in the condition minus one multiplied by the number of participants minus one.
+
+```{r}
+ss_rm <- ss_pa - ss_p
+
+df_error <- (length(unique(data$condition)) - 1) * (length(unique(data$id)) - 1)
+ms_rm <- ss_rm/df_error
+```
+
+Now we have all the ingredients to calculate the F-ratio, which is the test statistic of the ANOVA. In order to calculate the effect of the condition on the overall variance, we divide the mean squares of the condition by the mean squares of the mean squares of the error term. In formula form it would look like this:
+
+$$F = \frac{mean\ squares\ of\ condition\ (ms_{a})}{Error\ term\ (ms_{rm})}$$
+
+The R code for this is simple again. To calculate whether the condition has a significant effect on the test score, we use the F distribution function (`pf()`), which takes the F ratio, and the degrees of freedom of both the numerator and the denominator. The output from this function is the distribution function, we get the p-value by substracting this distribution function from 1. The code for this looks something like this:
+
+```{r}
+F_ratio <- ms_cond/ms_rm
+
+p <- 1 - pf(F_ratio, df_cond, df_error)
+print(p)
+```
+
+We find that there is a significant effect of the condition on the subject variance! In human language, the length of training affected test scores significantly. This was a lot of hassle with idenitical code coming by several times in perhaps somewhat confusing variable names. Luckily for us, we don't need to do this every time. In the main text we've used the `aov()` function already. We can use it here to but add the error term in the `Error()` function and incorporate it into the formula that goes into the `aov()`. Let's do all that we've done above again, but in two lines:
+
+```{r}
+repmeas_model <- aov(score ~ condition + Error(id/condition), data = data)
+summary(repmeas_model)
+```
+
+If you have followed along with the code and looked at the values of each variable we calculated (e.g. `ss_p`), you might now notice that the last "Residuals" part of the output represents the error term. The values on the `condition` row is identical to the between-group variance we calculated, and the F-value and p-value are equal to the output we obtained manually!
+
+Of course in regular analysis scripts, you would pick the `aov()` over all the hassle we went through earlier, but the purpose of this paragraph was just to become more familiar with the underlying operations of ANOVA.
+
+## Everything is a linear model
+
+Since this requires a rather elaborate description, I've made a separate article on this topic. It is still work in progress, but the preliminary version can be found [here]( http://www.danielroelfs.com/everythingisalinearmodel/){target="_blank"}.

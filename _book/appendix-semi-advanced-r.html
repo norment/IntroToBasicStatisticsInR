@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12 Appendix: semi-advanced R | Introduction To Basic Statistics in R</title>
+  <meta name="description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  <meta name="generator" content="bookdown 0.15.5 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12 Appendix: semi-advanced R | Introduction To Basic Statistics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 Appendix: semi-advanced R | Introduction To Basic Statistics in R" />
+  
+  <meta name="twitter:description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  
+
+<meta name="author" content="Version 1.1.0" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="futher-reading.html"/>
+<link rel="next" href="appendix-semi-advanced-statistics.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Basic Statistics in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="firstlook.html"><a href="firstlook.html"><i class="fa fa-check"></i><b>2</b> First look at R</a></li>
+<li class="chapter" data-level="3" data-path="definitions-of-basic-princples.html"><a href="definitions-of-basic-princples.html"><i class="fa fa-check"></i><b>3</b> Definitions of basic princples</a></li>
+<li class="chapter" data-level="4" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>4</b> Uncertainty</a></li>
+<li class="chapter" data-level="5" data-path="distributions-probabilities.html"><a href="distributions-probabilities.html"><i class="fa fa-check"></i><b>5</b> Distributions &amp; Probabilities</a></li>
+<li class="chapter" data-level="6" data-path="basic-statistics.html"><a href="basic-statistics.html"><i class="fa fa-check"></i><b>6</b> Basic Statistics</a><ul>
+<li class="chapter" data-level="6.1" data-path="basic-statistics.html"><a href="basic-statistics.html#hypotheses-and-the-t-test"><i class="fa fa-check"></i><b>6.1</b> Hypotheses and the T-test</a></li>
+<li class="chapter" data-level="6.2" data-path="basic-statistics.html"><a href="basic-statistics.html#anova"><i class="fa fa-check"></i><b>6.2</b> ANOVA</a></li>
+<li class="chapter" data-level="6.3" data-path="basic-statistics.html"><a href="basic-statistics.html#correlation"><i class="fa fa-check"></i><b>6.3</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="probability-values.html"><a href="probability-values.html"><i class="fa fa-check"></i><b>7</b> Probability values</a></li>
+<li class="chapter" data-level="8" data-path="power-analysis.html"><a href="power-analysis.html"><i class="fa fa-check"></i><b>8</b> Power Analysis</a></li>
+<li class="chapter" data-level="9" data-path="plotting.html"><a href="plotting.html"><i class="fa fa-check"></i><b>9</b> Plotting</a><ul>
+<li class="chapter" data-level="9.1" data-path="plotting.html"><a href="plotting.html#basics-mapping"><i class="fa fa-check"></i><b>9.1</b> Basics &amp; Mapping</a></li>
+<li class="chapter" data-level="9.2" data-path="plotting.html"><a href="plotting.html#types-of-plot"><i class="fa fa-check"></i><b>9.2</b> Types of plot</a></li>
+<li class="chapter" data-level="9.3" data-path="plotting.html"><a href="plotting.html#layout-and-style"><i class="fa fa-check"></i><b>9.3</b> Layout and Style</a></li>
+<li class="chapter" data-level="9.4" data-path="plotting.html"><a href="plotting.html#themes"><i class="fa fa-check"></i><b>9.4</b> Themes</a></li>
+<li class="chapter" data-level="9.5" data-path="plotting.html"><a href="plotting.html#statistics-in-plots"><i class="fa fa-check"></i><b>9.5</b> Statistics in plots</a></li>
+<li class="chapter" data-level="9.6" data-path="plotting.html"><a href="plotting.html#norment-options"><i class="fa fa-check"></i><b>9.6</b> NORMENT options</a></li>
+<li class="chapter" data-level="9.7" data-path="plotting.html"><a href="plotting.html#more-examples"><i class="fa fa-check"></i><b>9.7</b> More examples</a></li>
+<li class="chapter" data-level="9.8" data-path="plotting.html"><a href="plotting.html#repeated-meausures-anova"><i class="fa fa-check"></i><b>9.8</b> Repeated-Meausures ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="a-full-analysis-script.html"><a href="a-full-analysis-script.html"><i class="fa fa-check"></i><b>10</b> A Full Analysis Script</a></li>
+<li class="chapter" data-level="11" data-path="futher-reading.html"><a href="futher-reading.html"><i class="fa fa-check"></i><b>11</b> Futher Reading</a></li>
+<li class="chapter" data-level="12" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html"><i class="fa fa-check"></i><b>12</b> Appendix: semi-advanced R</a><ul>
+<li class="chapter" data-level="12.1" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#sharing-your-data"><i class="fa fa-check"></i><b>12.1</b> Sharing your data</a></li>
+<li class="chapter" data-level="12.2" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#for-loops"><i class="fa fa-check"></i><b>12.2</b> For-loops</a></li>
+<li class="chapter" data-level="12.3" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#the-pipe"><i class="fa fa-check"></i><b>12.3</b> The pipe</a></li>
+<li class="chapter" data-level="12.4" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#working-with-dates"><i class="fa fa-check"></i><b>12.4</b> Working with dates</a></li>
+<li class="chapter" data-level="12.5" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#animations"><i class="fa fa-check"></i><b>12.5</b> Animations</a></li>
+<li class="chapter" data-level="12.6" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#cowplot"><i class="fa fa-check"></i><b>12.6</b> Cowplot</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html"><i class="fa fa-check"></i><b>13</b> Appendix: semi-advanced statistics</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html#anova-1"><i class="fa fa-check"></i><b>13.1</b> ANOVA</a></li>
+<li class="chapter" data-level="13.2" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html#everything-is-a-linear-model"><i class="fa fa-check"></i><b>13.2</b> Everything is a linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/norment" target="blank">Created for NORMENT</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction To Basic Statistics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix-semi-advanced-r" class="section level1">
+<h1><span class="header-section-number">12</span> Appendix: semi-advanced R</h1>
+<p>Now, if all the stuff that I discussed earlier was too simple for you already, then you may be interested in the next section. This will go over some more advanced methods and tools within R. If the previous sections were already a challenge, then I’d actually urge you to skip this step and get a good hold of the principles discussed above before moving on to this section as to avoid freaking you out with complicated looking code.</p>
+<div id="sharing-your-data" class="section level2">
+<h2><span class="header-section-number">12.1</span> Sharing your data</h2>
+<p>So I discussed earlier on how to easily move your data from SPSS to R, but what if you want to share your dataset with a colleague or make it publicly available so others can reproduce your findings? There’s a few ways of going about this. I’m assuming you are finished with your analysis, and you have one big data frame with a bunch of variables merged, other data extracted, and it has undergone a cleaning process. If you want to share just one data frame, the easiest way is to write it a tab-delimited csv-file. The function you would use here is the <code>write.table()</code> function (note the similarity to the <code>read.table()</code> function). This function takes a number of inputs, but I’ll typically use only three of the optional settings, which are the <code>quote</code>, <code>sep</code>, and <code>row.names</code> option. The <code>quote = FALSE</code> option tells R that you don’t want to save strings with the double quotes. This is useful since not all programs treat those double quotes the same way. In the second option, <code>sep</code>, you tell R what you want the delimiter to be. A common delimiter is the semicolon (<code>";"</code>), but the most universally accepted delimiter is the tab. That means that each column is separated by a tab, which is different from just a white space sometimes. We set the delimiter to a tab by setting the sep option as follows: <code>"\t"</code>. The last option I always use is the <code>row.names</code> option, which I set to <code>FALSE</code>. This tells R that I don’t want to save the row names (which is just a sequence from 1 to how many rows your data frame has, i.e. the row numbers). It may be confusing and if you did your job properly, you’d have an ID column in there anyway, making the row numbers redundant. Since it’s usually just confusing and annoying, I get rid of it.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="appendix-semi-advanced-r.html#cb138-1"></a><span class="kw">write.table</span>(data_comb, <span class="dt">file =</span> <span class="st">&quot;FileToShare.csv&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p>Another way of sharing your data is by creating an Rdata file, this is an R specific format, which is not compatible with other programs usually. The biggest advantage of the Rdata file is that you can save all variables you have created in one file. And the next person who loads this Rdata file will have the exact same workspace you used, so there is little confusion on how your workspace was organized. You can also save a single data frame in an Rdata file, but if you are thinking about doing that, then I’d recommend to use the <code>write.table()</code> function instead. We can save all variables in an Rdata file using the <code>save.image()</code> function:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="appendix-semi-advanced-r.html#cb139-1"></a><span class="kw">save.image</span>(<span class="dt">file =</span> <span class="st">&quot;AllVariables.Rdata&quot;</span>)</span></code></pre></div>
+<p>This is really simple. If you wanted to save several variables, you can use the <code>save()</code> function:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="appendix-semi-advanced-r.html#cb140-1"></a><span class="kw">save</span>(<span class="dt">list =</span> <span class="kw">c</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;data_clean&quot;</span>, <span class="st">&quot;bplot&quot;</span>), <span class="dt">file =</span> <span class="st">&quot;SomeVariables.Rdata&quot;</span>)</span></code></pre></div>
+<p>Then you can send the files you’ve created to your collaborators, who can read the csv-files using the regular <code>read.table()</code> function. The Rdata files can be loaded by using the <code>load()</code> function as follows:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="appendix-semi-advanced-r.html#cb141-1"></a><span class="kw">load</span>(<span class="st">&quot;AllVariables.Rdata&quot;</span>) <span class="co"># or</span></span>
+<span id="cb141-2"><a href="appendix-semi-advanced-r.html#cb141-2"></a><span class="kw">load</span>(<span class="st">&quot;SomeVariables.Rdata&quot;</span>)</span></code></pre></div>
+</div>
+<div id="for-loops" class="section level2">
+<h2><span class="header-section-number">12.2</span> For-loops</h2>
+<p>Now, for those of you that are left, hello! In this section we’ll go over loops, the pipe, and long vs. wide formats. We’ll start with the simplest, the “for”-loop. The for loop I can explain in a simple way. In the example below, we loop over a variable called <code>vector</code>, which is also a vector from one to ten. The principle of a for loop is that the code within the loop remains the same, but one variable changes. The changing variable is the variable that is “looped over”. I the example, the loop has 10 iterations, and in the first iteration the variable <code>i</code>, has the value <code>1</code>, in the second the value <code>2</code>, and in the tenth the value <code>10</code>. The context in which we’ve used it now, in the first iteration, the loop will print a vector from <code>i</code> to 11. As <code>i</code> increases, the list will become shorter and shorter. Note how the first number in each iteration is always equal to <code>i</code>, and the last number always <code>11</code>.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="appendix-semi-advanced-r.html#cb142-1"></a>vector &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb142-2"><a href="appendix-semi-advanced-r.html#cb142-2"></a><span class="cf">for</span> (i <span class="cf">in</span> vector) {</span>
+<span id="cb142-3"><a href="appendix-semi-advanced-r.html#cb142-3"></a>  <span class="kw">print</span>(i<span class="op">:</span><span class="dv">11</span>)</span>
+<span id="cb142-4"><a href="appendix-semi-advanced-r.html#cb142-4"></a>}</span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11
+##  [1]  2  3  4  5  6  7  8  9 10 11
+## [1]  3  4  5  6  7  8  9 10 11
+## [1]  4  5  6  7  8  9 10 11
+## [1]  5  6  7  8  9 10 11
+## [1]  6  7  8  9 10 11
+## [1]  7  8  9 10 11
+## [1]  8  9 10 11
+## [1]  9 10 11
+## [1] 10 11</code></pre>
+<p>The for loop is particularly useful for situations where one needs to run the same code multiple times. I use it often in situations where I have multiple files that I want to combine in one data frame, or when I want to apply the same operation on multiple variables with similar names (e.g. <code>"edge1"</code> to <code>"edge210"</code>). The for loop is very useful, but it’s relatively slow and sometimes difficult to read, but it is definitely better than any <code>lapply()</code> function or similar, since that’s ugly code. I am aware that some people on online help forums like <code>lapply()</code> and recommend it quickly, but I think writing a for loop is definitely preferred.</p>
+</div>
+<div id="the-pipe" class="section level2">
+<h2><span class="header-section-number">12.3</span> The pipe</h2>
+<p>The pipe (<code>%&gt;%</code>) was probably the most useful function I have learned to use. The principle of the pipe is that it takes whatever the previous data or function output was and it puts it into the next function. Let’s try it with the <code>filter()</code> function, we want to select only the healthy controls in the next dataset, and I’ll show two ways of using the same function with and without the pipe. Then we’ll check if both data frames are identical with the <code>all.equal()</code> function.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="appendix-semi-advanced-r.html#cb144-1"></a>data_HC1 &lt;-<span class="st"> </span><span class="kw">filter</span>(data, Pasient_Kontroll <span class="op">==</span><span class="st"> &quot;Control&quot;</span>)</span>
+<span id="cb144-2"><a href="appendix-semi-advanced-r.html#cb144-2"></a>data_HC2 &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Pasient_Kontroll <span class="op">==</span><span class="st"> &quot;Control&quot;</span>)</span>
+<span id="cb144-3"><a href="appendix-semi-advanced-r.html#cb144-3"></a></span>
+<span id="cb144-4"><a href="appendix-semi-advanced-r.html#cb144-4"></a><span class="kw">all.equal</span>(data_HC1, data_HC2)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>So we see that both data frames are identical. I find that the pipe is useful, especially when you use the pipe more than once. Let’s try this example again. First we’ll select only the schizophrenia-spectrum patients only, then select only participants in the age range 20 to 30, and then we want to summarise the total PANSS scores for each diagnosis category within this spectrum. We calculate the mean and standard deviation of the PANSS score for each diagnosis. The <code>group_by()</code> function is very useful! You can add the <code>group_by()</code> function in almost any situation, and it will apply the functions further down the pipe by group instead of for the whole dataset. I use it a lot. If you want to remove the grouping, you can use <code>ungroup()</code> at the end.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="appendix-semi-advanced-r.html#cb146-1"></a>data_p &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></span>
+<span id="cb146-2"><a href="appendix-semi-advanced-r.html#cb146-2"></a><span class="st">  </span><span class="kw">filter</span>(Diag_collapsed <span class="op">==</span><span class="st"> &quot;SCZ_spect&quot;</span>,</span>
+<span id="cb146-3"><a href="appendix-semi-advanced-r.html#cb146-3"></a>         AgeBaseline <span class="op">&gt;=</span><span class="st"> </span><span class="dv">20</span> <span class="op">&amp;</span><span class="st"> </span>AgeBaseline <span class="op">&lt;=</span><span class="st"> </span><span class="dv">30</span>) <span class="op">%&gt;%</span></span>
+<span id="cb146-4"><a href="appendix-semi-advanced-r.html#cb146-4"></a><span class="st">  </span><span class="kw">group_by</span>(Diag_category) <span class="op">%&gt;%</span></span>
+<span id="cb146-5"><a href="appendix-semi-advanced-r.html#cb146-5"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_panss =</span> <span class="kw">mean</span>(score_panss, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb146-6"><a href="appendix-semi-advanced-r.html#cb146-6"></a>            <span class="dt">sd_panss =</span> <span class="kw">sd</span>(score_panss, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb146-7"><a href="appendix-semi-advanced-r.html#cb146-7"></a>            <span class="dt">n =</span> <span class="kw">n</span>())</span>
+<span id="cb146-8"><a href="appendix-semi-advanced-r.html#cb146-8"></a><span class="kw">print</span>(data_p)</span></code></pre></div>
+<pre><code>## # A tibble: 3 x 4
+##   Diag_category    mean_panss sd_panss     n
+##   &lt;fct&gt;                 &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
+## 1 schizoaffective        57.3     12.7    67
+## 2 schizophrenia          68.2     18.4   347
+## 3 schizophreniform       54       14.8    30</code></pre>
+</div>
+<div id="working-with-dates" class="section level2">
+<h2><span class="header-section-number">12.4</span> Working with dates</h2>
+<p>At some point in your analysis, you might have to work with dates, for instance to calculate the difference between two dates to obtain the age. Working with dates is a messy job in any software, and R is no exception. Let’s look at some particularly messy data. We have a dataset of 5 individuals, we have their date of birth, the date of the first interview, and the date of the second interview. We are interested in two things, the age at the first interview, and the time between the first and second interview. Let’s have a look at our little dataset.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="appendix-semi-advanced-r.html#cb148-1"></a><span class="kw">print</span>(data)</span></code></pre></div>
+<pre><code>##     names       DoB interview1 interview2
+## 1   Lucie 03/11/&#39;78 03.05.2015   20170607
+## 2     Ane 20/12/&#39;88 30.08.2015   20171004
+## 3 Andreas 15/05/&#39;77 28.03.2016   20180412
+## 4   Kyrre 18/06/&#39;90 15.12.2016   20190201
+## 5   Vilde 29/01/&#39;86 30.11.2017   20190108</code></pre>
+<p>Looks pretty straightforward right? Let’s also have a look at the column types:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="appendix-semi-advanced-r.html#cb150-1"></a><span class="kw">str</span>(data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5 obs. of  4 variables:
+##  $ names     : Factor w/ 5 levels &quot;Andreas&quot;,&quot;Ane&quot;,..: 4 2 1 3 5
+##  $ DoB       : Factor w/ 5 levels &quot;03/11/&#39;78&quot;,&quot;15/05/&#39;77&quot;,..: 1 4 2 3 5
+##  $ interview1: Factor w/ 5 levels &quot;03.05.2015&quot;,&quot;15.12.2016&quot;,..: 1 4 3 2 5
+##  $ interview2: num  20170607 20171004 20180412 20190201 20190108</code></pre>
+<p>So we see that we have a number of character columns, which are interpreted as factors, and one numeric one. In order to work with dates appropriately, we need to convert all of these into a standard format. There’s a simple function for this: <code>as.Date()</code>. This function converts a character column into the standardized date format. Note that it only takes a character column as input, and no numeric or integer ones. We’ll get back to that issue later. The <code>as.Date()</code> function takes another input, the format in which it should interpret the character string. There’s a couple of items here, for instance <code>%d</code> stands for “day”, <code>%m</code> stands for “month”, <code>%y</code> stands for a two-digit year (i.e. ’82), <code>%Y</code> stands for a four-digit year (i.e. 1982). If you had a character string that looked like this: <code>"17/02/1992"</code>, then the format you’d put in the <code>as.Date()</code> function would look like this: <code>"%d/%m/%Y"</code>, and <code>"01.26.65"</code> would be <code>"%m.%d.%y"</code>.
+Let’s tidy up our data first, and then we’ll get to the calculations later. We’ll use the pipe we described before, as well as the <code>mutate()</code> function, we’ll do all three conversions at the same time, hopefully so you can see the pattern. Since the format of the <code>interview2</code> column is a numeric one, we’ll have to convert that to a character format first, we’ll do that inside the <code>as.Date()</code> function by using the <code>as.character()</code> function.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="appendix-semi-advanced-r.html#cb152-1"></a>data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></span>
+<span id="cb152-2"><a href="appendix-semi-advanced-r.html#cb152-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">DoB =</span> <span class="kw">as.Date</span>(DoB, <span class="dt">format =</span> <span class="st">&quot;%d/%m/&#39;%y&quot;</span>),</span>
+<span id="cb152-3"><a href="appendix-semi-advanced-r.html#cb152-3"></a>         <span class="dt">interview1 =</span> <span class="kw">as.Date</span>(interview1, <span class="dt">format =</span> <span class="st">&quot;%d.%m.%Y&quot;</span>),</span>
+<span id="cb152-4"><a href="appendix-semi-advanced-r.html#cb152-4"></a>         <span class="dt">interview2 =</span> <span class="kw">as.Date</span>(<span class="kw">as.character</span>(interview2), <span class="dt">format =</span> <span class="st">&quot;%Y%m%d&quot;</span>))</span></code></pre></div>
+<p>Let’s now have a look at the data again:</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="appendix-semi-advanced-r.html#cb153-1"></a><span class="kw">print</span>(data)</span></code></pre></div>
+<pre><code>##     names        DoB interview1 interview2
+## 1   Lucie 1978-11-03 2015-05-03 2017-06-07
+## 2     Ane 1988-12-20 2015-08-30 2017-10-04
+## 3 Andreas 1977-05-15 2016-03-28 2018-04-12
+## 4   Kyrre 1990-06-18 2016-12-15 2019-02-01
+## 5   Vilde 1986-01-29 2017-11-30 2019-01-08</code></pre>
+<p>We can see that the date columns are now converted to a standard date format, this format looks like this <code>"%Y-%m-%d"</code>. Now all our date columns are in a unified standardized format. Let’s now do some calculations, for this we’ll use the <code>{lubridate}</code> package. We want to calculate age at the first interview, and the time between the first and second interview. Let’s calculate age first.</p>
+<p>We’ll use the <code>difftime()</code> function to calculate the difference between two timepoints, in our date, the date of birth, and the time of the first interview.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="appendix-semi-advanced-r.html#cb155-1"></a>age_difftime &lt;-<span class="st"> </span><span class="kw">difftime</span>(data<span class="op">$</span>interview1, data<span class="op">$</span>DoB)</span>
+<span id="cb155-2"><a href="appendix-semi-advanced-r.html#cb155-2"></a><span class="kw">print</span>(age_difftime)</span></code></pre></div>
+<pre><code>## Time differences in days
+## [1] 13330  9749 14197  9677 11628</code></pre>
+<p>We see that it gives us the difference in days. We’re not particularly interested in how old people are in days, we’re particularly interested in years. However, dividing by 365.25 is not entirely accurate, and many other manual methods will undoubtedly give us a massive headache. Especially when we have to account for the year 2000, which should not have been a leap year, but was. Luckily there’s a package that handles this headache for us, the <code>{lubridate}</code> package (not to be misread as “lubricate”). This package contains one particularly useful function, called <code>time_length()</code>. This function takes the time difference in days and converts it to whatever you specify you want to get back (specified in the <code>unit</code> option). Let’s do it:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="appendix-semi-advanced-r.html#cb157-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb157-2"><a href="appendix-semi-advanced-r.html#cb157-2"></a><span class="kw">time_length</span>(age_difftime, <span class="dt">unit =</span> <span class="st">&quot;years&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 36.52055 26.70959 38.89589 26.51233 31.85753</code></pre>
+<p>We now have a number of ages for our participants, with decimals. If we don’t want that, we can round it:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="appendix-semi-advanced-r.html#cb159-1"></a><span class="kw">round</span>(<span class="kw">time_length</span>(age_difftime, <span class="dt">unit =</span> <span class="st">&quot;years&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] 37 27 39 27 32</code></pre>
+<p>If we wanted to add this as a column to our data frame, we could combine the steps above into one. It would look something like this:</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="appendix-semi-advanced-r.html#cb161-1"></a>data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></span>
+<span id="cb161-2"><a href="appendix-semi-advanced-r.html#cb161-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">age_intv1 =</span> <span class="kw">round</span>(<span class="kw">time_length</span>(<span class="kw">difftime</span>(interview1, DoB), <span class="dt">unit =</span> <span class="st">&quot;years&quot;</span>)))</span>
+<span id="cb161-3"><a href="appendix-semi-advanced-r.html#cb161-3"></a><span class="kw">print</span>(data)</span></code></pre></div>
+<pre><code>##     names        DoB interview1 interview2 age_intv1
+## 1   Lucie 1978-11-03 2015-05-03 2017-06-07        37
+## 2     Ane 1988-12-20 2015-08-30 2017-10-04        27
+## 3 Andreas 1977-05-15 2016-03-28 2018-04-12        39
+## 4   Kyrre 1990-06-18 2016-12-15 2019-02-01        27
+## 5   Vilde 1986-01-29 2017-11-30 2019-01-08        32</code></pre>
+<p>Let’s say you wanted to know the difference between the first and second interview in weeks with decimals (I don’t know why anyone would prefer to know it in weeks rather than days or years, but I won’t judge). We can do that! Just for fun, we’ll also calculate the age of the participant at the second interview at the same time,</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="appendix-semi-advanced-r.html#cb163-1"></a>data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></span>
+<span id="cb163-2"><a href="appendix-semi-advanced-r.html#cb163-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">interval =</span> <span class="kw">time_length</span>(<span class="kw">difftime</span>(interview2, interview1), <span class="dt">unit =</span> <span class="st">&quot;weeks&quot;</span>),</span>
+<span id="cb163-3"><a href="appendix-semi-advanced-r.html#cb163-3"></a>         <span class="dt">age_intv2 =</span> <span class="kw">round</span>(<span class="kw">time_length</span>(<span class="kw">difftime</span>(interview2, DoB), <span class="dt">unit =</span> <span class="st">&quot;years&quot;</span>)))</span>
+<span id="cb163-4"><a href="appendix-semi-advanced-r.html#cb163-4"></a><span class="kw">print</span>(data)</span></code></pre></div>
+<pre><code>##     names        DoB interview1 interview2 age_intv1  interval age_intv2
+## 1   Lucie 1978-11-03 2015-05-03 2017-06-07        37 109.42857        39
+## 2     Ane 1988-12-20 2015-08-30 2017-10-04        27 109.42857        29
+## 3 Andreas 1977-05-15 2016-03-28 2018-04-12        39 106.42857        41
+## 4   Kyrre 1990-06-18 2016-12-15 2019-02-01        27 111.14286        29
+## 5   Vilde 1986-01-29 2017-11-30 2019-01-08        32  57.71429        33</code></pre>
+<p>And now you have the age of the partipant at the two interview, and the difference (in weeks) between the first and second interview. The syntax for these calculations isn’t particularly complicated, but it takes some cognitive effort to recognize the patterns. Anyway, other than punching the age of the participant when collecting the data, this is the easiest and cleanest way I could think of for dealing with dates in R.</p>
+</div>
+<div id="animations" class="section level2">
+<h2><span class="header-section-number">12.5</span> Animations</h2>
+<p>Remember that animation I used in the “distributions” section, here’s how I made it. Creating animations from <code>ggplot</code> objects is pretty simple with the <code>{gganimate}</code> package. First I created a perfect distribution, and repeated it 10 times, then I created 10 different random distributions, and then repeated the first one as the last one. This last step was necessary to make sure the transitions would be smooth throughout the animation. Then I created the <code>ggplot</code> object, and added the <code>transition_time()</code> function to tell the <code>{gganimate}</code> package what variable to create the animation over. Then I also added the <code>ease_aes()</code> layer to create smooth transitions with tiny pauses at each step.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="appendix-semi-advanced-r.html#cb165-1"></a><span class="kw">library</span>(gganimate)</span>
+<span id="cb165-2"><a href="appendix-semi-advanced-r.html#cb165-2"></a></span>
+<span id="cb165-3"><a href="appendix-semi-advanced-r.html#cb165-3"></a>n_replications &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb165-4"><a href="appendix-semi-advanced-r.html#cb165-4"></a></span>
+<span id="cb165-5"><a href="appendix-semi-advanced-r.html#cb165-5"></a>norm &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</span>
+<span id="cb165-6"><a href="appendix-semi-advanced-r.html#cb165-6"></a>temp &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</span>
+<span id="cb165-7"><a href="appendix-semi-advanced-r.html#cb165-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">11</span>) {</span>
+<span id="cb165-8"><a href="appendix-semi-advanced-r.html#cb165-8"></a>  temp &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb165-9"><a href="appendix-semi-advanced-r.html#cb165-9"></a>    <span class="dt">sum_norm =</span> <span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">12</span>),</span>
+<span id="cb165-10"><a href="appendix-semi-advanced-r.html#cb165-10"></a>    <span class="dt">prob_norm =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">3</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">4</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">5</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">6</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">5</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">4</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">3</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">36</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">36</span>) <span class="op">*</span><span class="st"> </span>n_replications,</span>
+<span id="cb165-11"><a href="appendix-semi-advanced-r.html#cb165-11"></a>    <span class="dt">it =</span> i</span>
+<span id="cb165-12"><a href="appendix-semi-advanced-r.html#cb165-12"></a>  )</span>
+<span id="cb165-13"><a href="appendix-semi-advanced-r.html#cb165-13"></a>  norm &lt;-<span class="st"> </span><span class="kw">rbind</span>(norm,temp)</span>
+<span id="cb165-14"><a href="appendix-semi-advanced-r.html#cb165-14"></a>}</span>
+<span id="cb165-15"><a href="appendix-semi-advanced-r.html#cb165-15"></a></span>
+<span id="cb165-16"><a href="appendix-semi-advanced-r.html#cb165-16"></a>outcomes_anim &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</span>
+<span id="cb165-17"><a href="appendix-semi-advanced-r.html#cb165-17"></a>temp &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span>n_replications)</span>
+<span id="cb165-18"><a href="appendix-semi-advanced-r.html#cb165-18"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</span>
+<span id="cb165-19"><a href="appendix-semi-advanced-r.html#cb165-19"></a>  temp<span class="op">$</span>it &lt;-<span class="st"> </span><span class="kw">rep</span>(i,n_replications)</span>
+<span id="cb165-20"><a href="appendix-semi-advanced-r.html#cb165-20"></a>  temp<span class="op">$</span>sum_rand &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">n =</span> n_replications, <span class="dt">expr =</span> <span class="kw">sum</span>(<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">2</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)))</span>
+<span id="cb165-21"><a href="appendix-semi-advanced-r.html#cb165-21"></a>  outcomes_anim &lt;-<span class="st"> </span><span class="kw">rbind</span>(outcomes_anim,temp)</span>
+<span id="cb165-22"><a href="appendix-semi-advanced-r.html#cb165-22"></a>}</span>
+<span id="cb165-23"><a href="appendix-semi-advanced-r.html#cb165-23"></a></span>
+<span id="cb165-24"><a href="appendix-semi-advanced-r.html#cb165-24"></a>outcomes_anim &lt;-<span class="st"> </span><span class="kw">rbind</span>(outcomes_anim, outcomes_anim <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(it <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">it =</span> <span class="dv">11</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb165-25"><a href="appendix-semi-advanced-r.html#cb165-25"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">it =</span> <span class="kw">as.integer</span>(it))</span>
+<span id="cb165-26"><a href="appendix-semi-advanced-r.html#cb165-26"></a></span>
+<span id="cb165-27"><a href="appendix-semi-advanced-r.html#cb165-27"></a><span class="kw">ggplot</span>() <span class="op">+</span></span>
+<span id="cb165-28"><a href="appendix-semi-advanced-r.html#cb165-28"></a><span class="st">  </span><span class="kw">geom_col</span>(<span class="dt">data =</span> norm, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> sum_norm, <span class="dt">y =</span> prob_norm), </span>
+<span id="cb165-29"><a href="appendix-semi-advanced-r.html#cb165-29"></a>           <span class="dt">color =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span></span>
+<span id="cb165-30"><a href="appendix-semi-advanced-r.html#cb165-30"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">data =</span> outcomes_anim, <span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> sum_rand), </span>
+<span id="cb165-31"><a href="appendix-semi-advanced-r.html#cb165-31"></a>                 <span class="dt">color =</span> norment_colors[[<span class="st">&quot;magenta&quot;</span>]], <span class="dt">fill =</span> norment_colors[[<span class="st">&quot;magenta&quot;</span>]], <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">binwidth =</span> <span class="dv">1</span>) <span class="op">+</span></span>
+<span id="cb165-32"><a href="appendix-semi-advanced-r.html#cb165-32"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">2</span>,<span class="dv">12</span>)) <span class="op">+</span></span>
+<span id="cb165-33"><a href="appendix-semi-advanced-r.html#cb165-33"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Outcome&quot;</span>,</span>
+<span id="cb165-34"><a href="appendix-semi-advanced-r.html#cb165-34"></a>       <span class="dt">y =</span> <span class="st">&quot;Frequency&quot;</span>) <span class="op">+</span></span>
+<span id="cb165-35"><a href="appendix-semi-advanced-r.html#cb165-35"></a><span class="st">  </span><span class="kw">theme_norment</span>() <span class="op">+</span></span>
+<span id="cb165-36"><a href="appendix-semi-advanced-r.html#cb165-36"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb165-37"><a href="appendix-semi-advanced-r.html#cb165-37"></a>    <span class="dt">panel.grid.minor.x =</span> <span class="kw">element_blank</span>()</span>
+<span id="cb165-38"><a href="appendix-semi-advanced-r.html#cb165-38"></a>  ) <span class="op">+</span></span>
+<span id="cb165-39"><a href="appendix-semi-advanced-r.html#cb165-39"></a><span class="st">  </span><span class="kw">transition_time</span>(it) <span class="op">+</span></span>
+<span id="cb165-40"><a href="appendix-semi-advanced-r.html#cb165-40"></a><span class="st">  </span><span class="kw">ease_aes</span>(<span class="st">&#39;cubic-in-out&#39;</span>)</span></code></pre></div>
+</div>
+<div id="cowplot" class="section level2">
+<h2><span class="header-section-number">12.6</span> Cowplot</h2>
+<p>Now I just wanted to give introduction to the <code>{cowplot}</code> package. It has a number of useful functions for plotting with <code>ggplot</code> (some of which are introducted <a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html" target="_blank">here</a>). I mainly wanted to give introduction to a method by which one could show distributions in the same figure as a regular scatter plot. Let’s grab back to the scatter plot we made in the main text:</p>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-113-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Now, we can insert density plots along the x- and y-axis. We can do that with the <code>axis_canvas()</code> function, which we can apply to both the axes:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="appendix-semi-advanced-r.html#cb166-1"></a>xdens &lt;-<span class="st"> </span><span class="kw">axis_canvas</span>(scplot, <span class="dt">axis =</span> <span class="st">&quot;x&quot;</span>) <span class="op">+</span></span>
+<span id="cb166-2"><a href="appendix-semi-advanced-r.html#cb166-2"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> data_scz, <span class="kw">aes</span>(<span class="dt">x =</span> AgeBaseline, <span class="dt">fill =</span> Gender), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb166-3"><a href="appendix-semi-advanced-r.html#cb166-3"></a><span class="st">  </span><span class="kw">scale_fill_norment</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">palette =</span> <span class="st">&quot;logo&quot;</span>)</span></code></pre></div>
+<p>Now we have an object which we’ll later insert along the x-axis. For the y-axis we’ll do the same, but since we want to flip this density plot by 90 degrees, we need to set <code>coord_flip</code> to true and add <code>coord_flip()</code> after the <code>geom_density()</code> function.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="appendix-semi-advanced-r.html#cb167-1"></a>ydens &lt;-<span class="st"> </span><span class="kw">axis_canvas</span>(scplot, <span class="dt">axis =</span> <span class="st">&quot;y&quot;</span>, <span class="dt">coord_flip =</span> <span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb167-2"><a href="appendix-semi-advanced-r.html#cb167-2"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data =</span> data_scz, <span class="kw">aes</span>(<span class="dt">x =</span> score_panss, <span class="dt">fill =</span> Gender), <span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">size =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb167-3"><a href="appendix-semi-advanced-r.html#cb167-3"></a><span class="st">  </span><span class="kw">scale_fill_norment</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">palette =</span> <span class="st">&quot;logo&quot;</span>) <span class="op">+</span></span>
+<span id="cb167-4"><a href="appendix-semi-advanced-r.html#cb167-4"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<p>Next, we insert both these objects into their respective axes in the plot. We can do this with the <code>insert_xaxis_grob()</code> and <code>insert_yaxis_grob()</code>. It needs some other trickery to position it correctly and we’ll need to do it first for one axis and then for another, but it’s relatively simple:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="appendix-semi-advanced-r.html#cb168-1"></a>scplot_xdens &lt;-<span class="st"> </span><span class="kw">insert_xaxis_grob</span>(scplot, xdens, grid<span class="op">::</span><span class="kw">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;null&quot;</span>), <span class="dt">position =</span> <span class="st">&quot;top&quot;</span>)</span>
+<span id="cb168-2"><a href="appendix-semi-advanced-r.html#cb168-2"></a>scplot_xydens &lt;-<span class="st"> </span><span class="kw">insert_yaxis_grob</span>(scplot_xdens, ydens, grid<span class="op">::</span><span class="kw">unit</span>(<span class="fl">0.2</span>, <span class="st">&quot;null&quot;</span>), <span class="dt">position =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
+<p>Then we can draw the plot. Since we’ve used a combination of functions from different packages to get the plot object we now have, we can no longer plot the figure as we did before. Instead we need to use the <code>ggdraw()</code> function.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="appendix-semi-advanced-r.html#cb169-1"></a><span class="kw">ggdraw</span>(scplot_xydens)</span></code></pre></div>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-117-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>And now we have density plots on the axes showing the distribution of the values for both variables! You could do the same with for instance <code>geom_histogram()</code>! Happy plotting!</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="futher-reading.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-semi-advanced-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": false,
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

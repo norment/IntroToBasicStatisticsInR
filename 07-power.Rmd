@@ -1,0 +1,36 @@
+# Power Analysis
+
+The section above describes in part how to reduce the chance of making a Type I error, now I'll go over how to diminish the opportunity of making Type II errors. The most common reason researchers get a Type I error is failure to detect an effect that is present in the population, but couldn't be measured in the sample because the sample size was too small. Therefore, it is generally recommended to perform a power analysis before running an experiment. A power analysis estimates the number of participants you need to test in order to make adequate claims about wether the hypotheses are true or false. It is somewhat complex algorithm that I won't go into, but the way to perform a power analysis in R is quite simple. The `{pwr}` package has a few functions for this. So first we load that package via `library(pwr)`, and then we estimate the power for the first experiment we used, comparing 5 primary school students with 5 high school students with a T-test. The function for this is called `pwr.t.test()`. And it takes a number of inputs.
+
+```{r}
+library(pwr)
+pwr.t.test(n = 10, # number of observations per sample
+           d = 0.2, # precicted effect size (as Cohen's d)
+           type = "two.sample", # we have a two-sample T-test
+           alternative = "less", # alternative hypothesis
+           sig.level = 0.05) # significance level
+```
+
+This says that we have a little more than 1% power to detect a true effect. That's not great!
+
+But how did I determine the predicted effect size (Cohen's d)? In a normal setting, you would do your literature reseach and deduce it from there. In this case, I just made it up, that is bad practice generally.
+
+Side note:
+If you need to calculate Cohen's d in R, there's a function in the `{normentR}` package called `cohens_d()` that does exactly that. Just input the same columns you would input to the `t.test()` function and it gives you Cohen's d for that test. Let's try it on our data. We already loaded the `{normentR}` package earlier.
+
+```{r}
+cohens_d(data$scores, data_highschool$scores)
+```
+
+Back to the power analysis. What about the ANOVA? Do we have enough power to detect an effect with three groups? We have again 10 pariticipants in each group, and we want to detect an effect of 0.8, measured as the F-statistic.
+
+```{r}
+pwr.anova.test(k = 3, # number of groups
+               n = 10, # number of observations in each group
+               f = 0.8, # effect size (as F-statistic)
+               sig.level = 0.05) # significance level
+```
+
+Here we find that we have quite a bit more power! Now we have almost 97% power to detect the effect! Since power is defined as 1 minus the probability of a Type II error, the probability of rejecting the alternative hypothesis while the null hypothesis is false is a little more than 3%, that's acceptable!
+
+So now that we've discussed how to reduce the risk of Type I and Type II, let's move on to the fun stuff, making pretty plots! :D

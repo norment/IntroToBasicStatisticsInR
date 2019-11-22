@@ -1,0 +1,41 @@
+# Probability values
+
+In statistics there's two types of errors one can make: Type I and Type II. Type I errors refer to false positives, Type II errors refer to false negatives. A famous table explaining how Type I and Type II errors relate to the hypotheses is shown below:
+
+Outcome of test       | H~0~ is true      | H~0~ is false     |
+--------------------- | ----------------- | ----------------- |
+**Do not reject H~0~**| _Correct finding_ | Type II error     |
+**Reject H~0~**       | Type I error      | _Correct finding_ |
+
+<!---
+<table class="table-style">
+<tr>
+<th></th>
+<th>H~0~ is true</th> 
+<th>H~0~ is false</th>
+</tr>
+<tr>
+<td>Do not reject H~0~</td>
+<td>Correct finding</td> 
+<td>Type II error</td>
+</tr>
+<tr>
+<td>Reject H~0~</td>
+<td>Type I error</td> 
+<td>Correct finding</td>
+</tr>
+</table>
+--->
+
+```{r table2, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- data.frame(
+  cond = c("", "H0 is true", "H0 is false"),
+  nrej = c("Do not reject H0", "Correct finding", "Type II error"),
+  rej = c("Reject H0", "Type I error", "Correct finding")
+)
+#knitr::kable(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+
+The p-value is nothing more than a probability, a percentage indicating the chance that the result we obtained was due to random chance. In a coin flip, the probability of either side coming up is 50%, or a probability of 0.5, I would also refer back to the dice experiment we discussed earlier to revisit probability distributions. 
+
+Every now and then I overhear someone saying a variation of the following sentence "this might be a major finding, it's very significant!". While I can appreciate the enthousiasm, it's important to stress that one cannot conflate the p-value with a size of effect. All the p-value states is the probability that the effect observed was due to chance. In most (medical) sciences, the probabilty they accept is 5%, or one out of 20 chance. But when we establish that we accept a 5% probability that the result we obtain is due to chance, then we have an issue when we run multiple tests. Why? 

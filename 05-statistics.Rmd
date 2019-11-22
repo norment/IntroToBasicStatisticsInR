@@ -1,0 +1,195 @@
+# Basic Statistics
+
+## Hypotheses and the T-test
+
+Let's go back to the example with the history exam. We've had two groups of students take the same exam. A group of students from a primary school, and a group of students from a high school. Before we started the exam, we predicted that the high school students would score higher on average. That was our hypothesis. In hypothesis testing, as a rule there's always two hypothesis, the null-hypothesis and the alternative hypothesis. The alternative hypothesis (also referred to as H<sub>a</sub>) is the statement we just made: "high school students score on average higher on this test than primary school students". The null hypothesis (or H<sub>0</sub>) is defined as the negation of the alternative hypothesis. In this case the null hypothesis is something like "the high school students do not score higher on average than the primary school students", or "there is no difference in the average score between the primary school stundents and the high school students".
+
+We can test whether this hypothesis is true with a statistical test. How exciting! The most appropriate test here is a T-test. We choose a T-test here because we have two groups that we want to compare, and the data in each group is a set of numbers. The function in R to perform a T-test is aptly named `t.test()`. This function takes either one or two sets of data. If you supply only one set of data, then the function compares that data to a normal distribution centered around 0. The T-test is only reliable when the data is normally distributed, but we showed earlier that this was the case, so we can move on and perform the test.
+
+There are a few options that we can set in the `t.test()` function. Since our hypothesis stated that we exptect primary school students to score on average lower than the high school students, we don't use a two-tailed test, but rather a one-tailed test. We can set this in the `alternative` field. 
+
+```{r}
+t.test(data$scores, data_highschool$scores, alternative = "less")
+```
+
+There's a few more options that we can set, and I'll quickly go over them below, R has default settings for a number of these options, so it's not always necessary to set these explicitely.
+
+```{r}
+t.test(data$scores, data_highschool$scores, # The two sets of data to compare
+       alternative = "less", # Other options are "two.sided" or "greater"
+       mu = 0, # Relevant if we supplied only one set of values, otherwise
+       # this sets the mean value for the perfect normal distribution
+       paired = FALSE, # Is this a paired T-test? Alternative input: TRUE
+       var.equal = FALSE, # Can equal variance be assumed? Alternative: TRUE
+       conf.level = 0.95) # Confidence level
+```
+
+Here we find that there is no significant difference in the scores between primary school and high school students. This is somewhat surprising, since the values are very different. The reason we didn't get a significant result here is likely because both groups contained only five students, and this is very low for a statistical test. We should definitely include more participants. Ideally, we would perform a power analysis before we even started the experiment, but we'll get to that later.
+
+So let's just for the sake of argument, say that we tested 10 students in each group, what would it look like then. The new datasets are as follow: 
+
+```{r}
+data <- data.frame(
+  names = c("Lucas", "Linn", "Thomas", "Sara", "Anna", "Hassan", "Ingvild", "Jostein", "Yuri", "Olav"),
+  scores = c(7.5, 8, 2, 6.5, 9, 5, 6, 8, 6.5, 7.5)
+)
+
+data_highschool <- data.frame(
+  names = c("Alex", "Solveig", "Ivar", "Yasmin", "Tobbe", "Christine", "Johannes", "Mo", "Trude", "Trygve"),
+  scores = c(8.5, 9, 8.5, 9.5, 8, 8.5, 9, 8.5, 9.5, 8)
+)
+```
+
+```{r}
+print(data)
+print(data_highschool)
+```
+
+You rerun the same code we used earlier to see if the mean score is still the same for both groups, how much the standard deviation has changed, and whether the data is still roughly normally distributed. If we run the same code for the t-test again now, we get a whole different result:
+
+```{r}
+t.test(data$scores, data_highschool$scores, alternative = "less")
+```
+
+Again, this is just for educational purpose now. In a real scientific setting, you would determine the number of experiments you need to perform up front and report that before you start experimenting. It is generally considered bad practice to keep testing and testing until you get the result you wanted all along.
+
+Back to the result, the ouput from the `t.test()` function is pretty self-explanatory. For this example, we accept a p-value lower than 0.05 as a significant result. Make sure to also look at the t-statistic and the degrees of freedom.
+
+## ANOVA
+
+Let's say you design a new experiment, and now you also add a third group of students, all university students in the first year of their bachelor in history. Try running the same tests again for this group. You'll find that this set of data is still rougly normally distributed and the mean score lies higher than the other two groups. Their results look like this:
+
+```{r echo=FALSE}
+data_university <- data.frame(
+  names = c("Johnny", "Synne", "Petter", "Yusuf", "Christy", "Olek", "Abdullah", "Jan", "Emilie", "Roger"),
+  scores = c(9, 9.5, 10, 10, 9, 9.5, 9.5, 10, 10, 8.5)
+)
+```
+
+```{r}
+print(data_university)
+```
+
+Since we now have three data frames to work with, it starts to become a little messy, that's why I combined all three data frames into one, and added a column specifying the group each individual student belonged to:
+
+```{r echo=FALSE}
+data_comb <- rbind(data, data_highschool, data_university) %>%
+  mutate(group = factor(rep(c("Primary School", "High School", "University"), each = 10),
+                        levels = c("Primary School", "High School", "University"), ordered = TRUE)) %>%
+  select(names, group, scores)
+```
+
+```{r}
+print(data_comb)
+```
+
+If we now want to test whether there is a difference in scores between the three groups, we cannot use a T-test anymore. To compare the mean value of multiple groups, we use an Analysis of Variance, better known as an ANOVA. Performing an ANOVA in R is twice as complicated as a T-test in that running an ANOVA takes two lines of code instead of one. First we need to set up the model that we want to test with possible covariates (which we don't have at the moment). The function for setting up the ANOVA formula is `aov()`.
+
+```{r}
+model <- aov(scores ~ group, data = data_comb)
+```
+
+Then we can run the actual ANOVA command, which is called `anova()`. This function takes the model and runs the ANOVA statical test. It prints again a list of pretty straight-forward output. In most cases, you're just interested in the line with the grouping variable, we can ignore the row with "Residuals" for now.
+
+```{r}
+anova(model)
+```
+
+We find that there is a significant effect of the grouping variable on the score. And the effect size (denoted by the F-value) is high too. Success! But the output we now have is the bare minimum we need to report in articles etc., but we can do better. Remember the T-test we ran earlier? That was a comparison between primary school students and high school students, but now that we have three groups we can make two more comparisons, [High School-Universtity], and [Primary School-University]. You could do this with independent T-tests, but it's important to remember that we then effectively run 3 T-tests within the same dataset. A T-test is appropriate when you have independent groups, but when we run this three-way T-test, the tests are not really independent anymore, since each group will appear twice in each comparison. And it's very imporant that we take this into account. So what do we do when we want to run T-tests within a comparison of three groups to see what drives the effect we observed when we ran the ANOVA? There's a function called the `pairwise.t.test()`, which does exactly what we decribed above, but it's not what we want in this case. What we do want is to run a post-hoc test!
+
+Again, this is just a simple single line of code. There's multiple options for post-hoc available in R, but we use the most common one is the Tukey's Honest Significant Differences test, commonly known as Tukey's post-hoc test. Tukey's post-hoc test is only relevant when you want to run pairwise T-tests on all possible combinations of groups, as we do here. The function for this in R is `TukeyHSD()`. It requires only the ANOVA model we created earlier using the `aov()` function. Since there's now three groups in the statistical test, we cannot specify whether we want a one-tailed or two-tailed test. So for comparison, let's run the T-test again for the comparison between primary school and high school students, but let it be a two-tailed test this time. Let's do it:
+
+```{r}
+t.test(data$scores, data_highschool$scores, alternative = "two.sided")
+```
+
+Now that we have that for comparison, let's now run Tukey's post-hoc test:
+
+```{r}
+TukeyHSD(model)
+```
+
+The ouput from this is relatively simple, it shows the output from the pairwise tests it performed, with the mean difference, the upper and lower bounds, and the adjusted p-value. Note that the p-value for the comparison between primary school students and high school students is higher in the post-hoc test than in the T-test. This is because the post-hoc test automatically corrects for multiple testing. I'll dedicate an entire section to the multiple testing problem and why it's important, and why it's one of the most severe errors made in statistics. Unfortunately, it's also a very common mistake.
+
+## Correlation
+
+Now for the last statistical test that is quite common in clinical research, the correlation. Let's say we take the same dataset, and we also gathered data on the parent's income. Then we can see how the parents income affect their children's performance in school. While this may not have a direct effect, wealthy parents might be more able to afford tutoring, and wealthy parents are more likely to live in nice neighbourhoods and provide a good situation for the child to do homework. This means that income might be a proxy for other factors. Let's say the new data looks like this:
+
+```{r echo=FALSE}
+set.seed(1238)
+data_comb$income_parents <- sample(seq(3e5,2e6, by = 5e4), nrow(data_comb),  replace = TRUE)
+print(data_comb$income_parents)
+```
+
+So now we can run a correlation. The simplest way to do this is by using the `cor.test()` function. It behaves the same was as the `t.test()` function, but now it takes two continuous variables as input. Now we use a two-sided hypothesis, and want to use Spearman's Rank test, which is set in the `method` option in the `cor.test()` function. Let's do it:
+
+```{r}
+cor.test(data_comb$scores, data_comb$income_parents, method = "spearman")
+```
+
+So we can see that there is an effect of parent's income on test scores, and it's significant too. But we've overlooked one big thing, that the students in the dataset that scored the highest were the university students, and it is probable that there might be a bias in the dataset since university students are maybe more likely have wealthy parents, than primary school students or high school students. We want to correct for this. Instead of manually running the test three times, I would recommend to "regress out" the group variable from the scores. We do this by running a linear model with the `group` as the covariate to regress out and the look at the residual scores. We can "residualize" the data as it's called by using the `lm()` function. The input for this is similar to that of the `aov()` option. Just to compare I will run it twice, once correcting for group, and once without covariate.
+
+```{r}
+lm_model_nocov <- lm(scores ~ income_parents, data = data_comb)
+lm_model <- lm(scores ~ income_parents + group, data = data_comb)
+
+data_comb$scores_resid_nocov <- lm_model_nocov$residuals
+data_comb$scores_resid <- lm_model$residuals
+```
+
+The mean of a residualized variable is by definition 0, but doesn't have to be normally distributed. In our case here, both residualized variables aren't actually normally distributed since outliers in the regular data will be outliers in the residualized data too. Let's check the boxplot:
+
+```{r fig.show='hold', fig.align='center'}
+boxplot(data_comb$scores_resid)
+```
+
+So now that we've "regressed out" the grouping variable, we now have a cleaner set of data to estimate the effect of parental income on test scores with. Let's do it using the same method we used before:
+
+```{r}
+cor.test(data_comb$scores_resid, data_comb$income_parents, method = "spearman")
+```
+
+That's very interesting, it seems that when not correcting for the student's current educiaton level, there is a significant correlation between income and the student's test scores, but when you correct for the group the students were in, this relationship disappears. It seems that the grouping variable was driving the assocation in this case.
+
+Let's have another look at the residuals. When we regressed out the grouping variable, I also did it once without correcting for the group. I just wanted to show the difference between the two to illustrate the effect that regressing categorical variables has on the data. Hopefully I'll convince you to correct for variables often and early in the process. Let's compare the distributions of both the corrected and uncorrected data.
+
+```{r fig.show='hold', fig.align='center'}
+boxplot(data_comb$scores_resid, data_comb$scores_resid_nocov, names = c("Corrected", "Uncorrected"))
+```
+
+The difference is subtle, but you can see that the first boxplot has a narrower confidence interval and smaller error bars. So both boxplots contain data from the same observation, so we can also see how the data points change for each group when we take the uncorrected residualized data and the corrected residualized data. Let's plot it like a scatter plot and plot the income of the parents on the x-axis, and the residualized scores on the y-axis. The small dots indicate the uncorrected data, and the larger dots indicate the data corrected for group.
+
+```{r echo=FALSE, fig.show='hold', fig.align='center'}
+ggplot(data_comb, aes(x = income_parents)) +
+  geom_point(aes(y = scores_resid_nocov, color = group)) +
+  geom_point(aes(y = scores_resid, color = group), size = 4, alpha  = 0.75) +
+  geom_segment(aes(xend = income_parents, y = scores_resid_nocov, yend = scores_resid), arrow = arrow(length = unit(6, "points"))) +
+  #geom_smooth(color = "grey30", method = "lm") +
+  theme_norment()
+```
+
+You can see that the adjustment direction is consistent across the three groups, but the size of the adjustment varies across individuals. You may also notice that the data points on the left side of the plot are mostly primary school children, while the other two groups are more distributed across the x-axis. Let's do the statistics again.
+
+```{r}
+cor.test(data_comb$income_parents, data_comb$scores_resid, method = "spearman")
+```
+
+Right! So now the significant effect has dissappeared, just because we regressed out the education levels from the scores. Another way of getting to this conclusion is to look at the raw output from the `lm()` model. Here again the `summary()` function comes in useful. Remember we saved the output from the `lm()` function in a variable called `lm_model`, we can use that now to look at what the linear model said about the predictor of scores.
+
+```{r}
+summary(lm_model)
+```
+
+While there is a significant effect of group (which we already knew from the ANOVA we ran earlier), we can see that the income from the parents is not a significant predictor of test scores in this dataset. At this point you might go, "wait, why does this regression model also tell us stuff the ANOVA told us?". The short answer is that any ANOVA is at it's core basically a linear model, why and how that works is somewhat technical and complicated, and I won't go into it now. For most practical purposes, you may continue using ANOVAs and regression models as if they're two separate things entirely. Even if it was just because post-hoc tests are built around the structure of an ANOVA, and not linear models.
+
+```{r echo=FALSE, fig.show='hold', fig.align='center', eval=FALSE}
+plotdata <- data_comb %>% pivot_longer(cols = contains("resid"))
+ggplot(plotdata, aes(x = name, y = value, group = group, color = group)) +
+  geom_point(size = 2, alpha = 0.75, position = position_dodge(width = 0.2)) +
+  geom_path(alpha = 0.75) +
+  scale_x_discrete(limits = unique(plotdata$name)) +
+  scale_color_norment() +
+  theme_norment()
+```
+
+Okay, now that we've covered some of the most common statistical tests in clinical research, I think it's important to talk about p-values, and why some of the nice p-values lower than 0.05 we found earlier are pretty useless for most purposes.

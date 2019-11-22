@@ -1,0 +1,119 @@
+# Distributions & Probabilities
+
+Distributions are very important in statistics. The simplest distrubition is the uniform distribution. For example, let's take an experiment where we roll one dice a number of time. If you roll it properly, the chance of getting any one side of the dice to face up is exactly 1/6th. Then let's say you roll that dice 900 times. In a truly random universe, after 900 tosses, each side will have faced up exactly 150 times.
+
+We can simulate this with the `sample()` function.
+
+```{r, echo=FALSE}
+set.seed(100)
+```
+```{r}
+sides <- 1:6
+tosses <- 900
+outcomes <- sample(sides, tosses, replace = TRUE) # replace = TRUE is necessary to 
+# tell the function that we accept that the same outcome may occur multiple times
+print(outcomes)
+```
+
+This list of values is not particularly informative, perhaps we should make a histogram with the frequency at which each side came up. We can do this with both the `hist()` function or `ggplot`'s `geom_histogram()` function. Because `ggplot()` is somewhat more complex for this example, I'll leave it for later.
+
+```{r fig.show='hold', fig.align='center'}
+hist(outcomes, breaks = 0:6)
+```
+
+As is always the case with random, even after 900 tosses, it's still not perfect, but it approaches this. This approach is a nice segue to another distribution, the probability distribution. Let's say we're still not bored and want to experiment some more. Let's say you take a second dice and throw both dice, you sum the result, and you repeat this another 99 times. The code for this is somewhat more complicated. It's simple for the first toss though, we use same function as before.
+
+```{r}
+dice <- 2
+outcome <- sample(sides, dice, replace = TRUE) # replace = TRUE is necessary to 
+# tell the function that we accept that the same outcome may occur multiple times
+print(outcome)
+```
+
+Then we sum the outcome with the `sum()` function.
+
+```{r}
+outcome_sum <- sum(outcome)
+print(outcome_sum)
+```
+
+So what are the chances that any sum of the two dices comes up? There's in total 11 possible outcomes. The lowest possible sum is 2, if both dice turn up with 1. The highest possible outcome is 12, when both dice show 6. There's only one possible cominbation to reach either of these outcomes. The outcome of 4, can be obtained in more than one way. Dice 1 shows 1, dice 2 shows 3, or vice versa, or both dice show 2. Remember that there's in total 36 possible outcomes (6 possibilties for either dice in any possible cominbation, `6x6`). So the possibility of obtaining a sum of 12 is `1/36`, since there's only one possible combination this can be achieved. For the outcome of 4, it's `3/36`, as a combination of [1,3], [2,2], or [3,1]. Using the same logic, there's 6 different ways of getting the result of 7. This also makes 7 the most likely sum to come up, since there's the largest number of combination to achieve this result. 
+So let's say we want to throw a pair of dice 100 times, to simulate this in R, we put it into a `replicate()` function. And instead of the individual steps we used before, we now group the functions together in one line, which effectively just means wrapping the `sample()` function in a `sum()` function. We want to replicate this 100 times.
+
+```{r echo=FALSE}
+set.seed(1082)
+```
+```{r}
+n_replications <- 100
+outcomes <- replicate(n = n_replications, expr = sum(sample(sides, dice, replace = TRUE)))
+print(outcomes)
+```
+
+Again, we can plot these values on histogram.
+
+```{r fig.show='hold', fig.align='center'}
+hist(outcomes, breaks = 1:12)
+```
+
+The distribution that this results in is the probability distribution, as you can see, the distribution is not yet identical to what we predicted theoretically. The probability distribution denotes the probabiltiy of different outcomes of an experiment. Since there's more different ways of obtaining a sum of 6, 7, or 8 than there's is to get a sum of 3, or 12 If you sample enough experiments, the probability distribution will tend to resemble the distribution that we expected from the theory, also known as the normal distribution (or Gaussian distribution). A normal distribution is a continuous probabilty distrbution. A set of 100 experiments is a good start, but when you run 1000 or 10.000 experiments, the distribution resembles more and more a perfect normal distribution.
+
+```{r fig.show='hold', fig.align='center'}
+n_replications <- 10000
+outcomes <- replicate(n = n_replications, expr = sum(sample(sides, dice, replace = TRUE)))
+hist(outcomes, breaks = 1:12)
+```
+
+In the figure below, I've included an animation of how ten different random experiments plot on top of the theoretical probability distribution:
+
+```{r echo=FALSE, fig.show='hold', fig.align='center', eval=FALSE}
+
+library(gganimate)
+
+n_replications <- 100
+
+norm <- data.frame()
+temp <- data.frame()
+for (i in 1:11) {
+  temp <- data.frame(
+    sum_norm = seq(2,12),
+    prob_norm = c(1/36, 2/36, 3/36, 4/36, 5/36, 6/36, 5/36, 4/36, 3/36, 2/36, 1/36) * n_replications,
+    it = i
+  )
+  norm <- rbind(norm,temp)
+}
+
+outcomes_anim <- data.frame()
+temp <- data.frame(x = 1:n_replications)
+for (i in 1:10) {
+  temp$it <- rep(i,n_replications)
+  temp$sum_rand <- replicate(n = n_replications, expr = sum(sample(1:6, 2, replace = TRUE)))
+  outcomes_anim <- rbind(outcomes_anim,temp)
+}
+
+outcomes_anim <- rbind(outcomes_anim, outcomes_anim %>% filter(it == 1) %>% mutate(it = 11)) %>%
+  mutate(it = as.integer(it))
+
+ggplot() +
+  geom_col(data = norm, mapping = aes(x = sum_norm, y = prob_norm), 
+           color = "black", fill = "black", alpha = 0.5) +
+  geom_histogram(data = outcomes_anim, mapping = aes(x = sum_rand), 
+                 color = norment_colors[["magenta"]], fill = norment_colors[["magenta"]], alpha = 0.5, binwidth = 1) +
+  scale_x_continuous(breaks = seq(2,12)) +
+  labs(x = "Outcome",
+       y = "Frequency") +
+  theme_norment() +
+  theme(
+    panel.grid.minor.x = element_blank()
+  ) +
+  transition_time(it) +
+  ease_aes('cubic-in-out')
+```
+
+Some statistical tests that we cover later require that the data is normally distributed in order to output a reliable statistic. We can test whether or not the set of data we have is normally distributed by using a Shapiro-Wilk's normality test. This test compares the distribution of our data with a perfectly normally distributed set of data with the same mean as our data. The R function to perform a Shapiro-Wilk's test is `shapiro.test()`. The output of this function is a p-value indicating whether our data is significantly different from a normal distribution. So if our data is roughly normally distributed, the p-value is larger than 0.05, if our data is not normally distributed, it is significantly different from a normal distribution and the p-value will be below 0.05. Let's try it on the scores from the history exam we used earlier!
+
+```{r}
+shapiro.test(data$scores)
+shapiro.test(data_highschool$scores)
+```
+
+The p-value is higher than 0.05 for both datasets, so that means that we can assume the data is normally distributed.

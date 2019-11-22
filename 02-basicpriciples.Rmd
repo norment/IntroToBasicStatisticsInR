@@ -1,0 +1,33 @@
+# Definitions of basic princples
+
+```{r echo=FALSE}
+load(file = "files/data/01-firstlook.Rdata")
+```
+
+So the most common statistic used anywhere is the mean. The mean is equivalent to the average in common terms. Let's say you're a primary school teacher with only 5 students who took a history exam. Now you're interested in what the average score across these 5 students was. The scores from this test are stored in a data frame called `data` we created earlier.
+
+```{r}
+print(data)
+```
+
+So what we do is we calculate the average (or mean) of the scores. We do this by running the `mean()` function across the `scores` column.
+
+```{r}
+mean(data$scores)
+```
+
+We find that the mean score for this test is `6.6`, which is a bit low. How come? Well, looking at the data we can see that Thomas didn't do very well on this test, he scored a `2`, which brought down the average of group considerable. We call Thomas' score an outlier, because it lies outside the group of scores of his fellow students. A more robust measure in this case is the median. Where the mean sums all scores and then divides by the number of students, the median takes the scores, sorts them, and then takes the middle value. The R function that calculates the median is appropriately called `median()`.
+
+```{r}
+median(data$scores)
+```
+
+In this case, that score is `7.5`. The principle of the median is that there is an equal number of observations higher than the median, and an equal number of observations lower. The median is more robust to outliers, and will give a better indication of the performance of the majority of the group in this case.
+
+Another function that combines the previous functions and a few more, is the `summary()` function, which is very flexible and can be used in many different situations. If you for instance type `summary(data$scores)`, it will give you the mean, median, minimum and maximum value, and the quantiles of the list of scores. Here's what that looks like:
+
+```{r}
+summary(data$scores)
+```
+
+The third descriptive is called the mode. The mode represents the value most observed. The mode is hardly ever used, because of its terrible job at accurately describing the data that the mean or median don't do better. It's so rare that there isn't even a built-in function to calculate the mode directly. In this example, since no two students got the same score, it is particularly useless anyway. You may forget about he mode.

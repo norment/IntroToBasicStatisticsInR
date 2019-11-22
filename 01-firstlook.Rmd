@@ -1,0 +1,51 @@
+# First look at R {#firstlook}
+
+R is in many ways similar to SPSS, and in a lot more ways far superior. Many like the point-and-click interface from SPSS, which R does not have, but I believe the coding skills necessary to use R are not complicated for most purposes and I've never met someone who started learning it and then went back to SPSS after. Here I'll just briefly mention the very basics. I'll assume you're working within Rstudio. Just for clarification, R is the programming language, Rstudio is a software that facilitates coding in R. Rstudio has a panel dedicated to writing a script, a panel dedicated to the "console" on the bottom, this is where you can run the code, and it's where R gives you feedback. The right side of Rstudio contains a panel for the "environment", which is where your variables will go. The bottom right panel is dedicated for plots, and the help menu. 
+
+In R you crate variables by assigning a value to a variable. For instance `a <- 1` assigns the number `1` to the variable called `a`. Then you can use this variable later in for instance something basic as aritmatic. The `print()` function does nothing more than print the variable to the console.
+
+```{r}
+a <- 1
+b <- a + 2
+print(b)
+```
+
+The most-used variable type in R is the data frame. It resembles an SPSS dataset the most. It is a variable with multiple rows for observations, and columns for variables. Column names in a data frame are for instance `ID`, `age`, `sex` and so on. Let's create a simple data frame. We do this with the `data.frame()` function, where we store variables with the `c()` function. Usually you would load data into R via `read_csv()`, `read.table()`, or by manually loading it in via the interactive interface. We'll create a data frame with some names and some scores corresponding with each name.
+
+```{r}
+data <- data.frame(
+  names = c("Lucas", "Linn", "Thomas", "Sara", "Anna"),
+  scores = c(7.5, 8, 2, 6.5, 9)
+)
+print(data)
+```
+
+There are a few different variable types, similar to SPSS, there's the numeric or integer variable type, for continuous data, the character string for text etc., the logical or binary type (`TRUE` or `FALSE`), and the factor, which is for categorical data. Strings are typically treated as categorical data. R is pretty smart when it comes to these variable types, so it's quite rare you have to manually set the variable type. Strings are used in R in double quotes, e.g. `"Ole"` is a string, but `a` is the variable name.
+
+Another important aspect of R are the packages. Packages are collections of scripts that serve a particular purpose. A lot of funtions we'll use here are built into R directly, but some will come from different packages. Popular packages in the field of neuroscience are `{tidyverse}`, `{cowplot}`, `{psych}`, and `{lme4}`. A package dedicated for NORMENT specific functions exists too, called the `{normentR}` package. You install packages via the `install.packages()` function. Since the `{normentR}` package is not part of the default packages in R, you're going to have to ask me to install it for you for now. Let's install the `{tidyverse}` package and the `{psych}` package:
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+install.packages("psych")
+```
+
+This will take a few seconds and provide a bunch of messages in the console, you can ignore this. The `install.packages()` function downloads the package from a central repository, called CRAN. If you ever encounter a package on GitHub, another large hub for R packages, you need to install this via the `{devtools}` package. Then from this package, you use the `install_github()` function, with the GitHub repository of the package. Since it's rare that you'd ever want to use the `{devtool}` package outside of this context, I prefer not to load it, but instead use a little trick which makes it possible to use the function within this package anyway without loading it, shown below.
+
+```{r eval=FALSE}
+install.packages("devtools")
+devtools::install_github("norment/normentR")
+```
+
+The `::` tells R that you want to use the `install_github()` from the `{devtools}` package without having to load the entire package.
+
+Then when the packages are installed, you load them via the `library()` function. Be aware that during the installation and the loading of packages, you might get some messages, and some might in red and look scary. Before you call the support team, I think you should know that these message are usually normal and harmless, and unless the messages say something like `package <packagename> is not available (for R version 3.<version>.<release>)` or `Error in library(<packagename>) : there is no package called <packagename>`, it requires little to no further action from you. If it does require action, it will usually explicity ask you.
+
+```{r}
+library(tidyverse)
+```
+
+Now all functions within the `{tidyverse}` package is ready for you to use! If you're unsure about the function and usage of a function, you can use the help function. This is very simple, you type a question mark, directly followed by the function name you want to see help from, for instance `?mean` will show the documentation for the `mean()` function.
+
+```{r echo=FALSE}
+save.image(file = "files/data/01-firstlook.Rdata")
+```

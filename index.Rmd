@@ -1,0 +1,41 @@
+--- 
+title: "Introduction To Basic Statistics in R"
+author: "Version 1.1.0"
+date: "Last update: November 22nd 2019"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This document serves as a simple introduction to some of the basic principles in statistics in R."
+output:
+  bookdown::gitbook:
+    config:
+      fontsettings: no
+      sharing: no
+---
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Alegreya:400,700|Monda:400,700|Monaco&display=swap');
+</style>
+
+```{r include=FALSE}
+knitr::opts_chunk$set(fig.retina=2)
+```
+
+```{r message=FALSE, warning=FALSE, cache=FALSE, echo=FALSE}
+# Setup of the environment
+library(tidyverse)
+library(normentR)
+```
+
+# Introduction
+
+This document serves as a simple introduction to some of the basic principles in statistics in R.
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
