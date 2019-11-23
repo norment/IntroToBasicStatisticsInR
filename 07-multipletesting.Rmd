@@ -1,0 +1,48 @@
+# The Multiple Testing Problem
+
+Since we accept a 5% probability at every test that the effect we measure is due to chance, what happens when we run 2 tests? Then the probability that the effects we measured is due to chance becomes 0.05 + 0.05 = 0.1, or 10%.
+
+So as you can imagine, this will increase the likelihood of finding a result when the null hypothesis is true quite quickly, i.e. we increase the chance of making a Type I error. So what do we do about it? If we still want to get a 5% chance that we get a false positive result, then we need to correct the signficance level of each test for the number of tests we're going to do. There's multiple ways we can do this, and I'll get to that later. Some of these tests use a parameter called the Family-Wise Error Rate (FWER), this calculates the probility of obtaining at least one significant result due to chance. The function for this is incorporated in the `{normentR}` package, the function is called `FWER()`. So let's say we want to calculate the FWER for 20 tests. We first need to load the `{normentR}` package, we do that via `library(normentR)`. The `FWER()` function takes two inputs, the number of comparisons in `n`, and the significance level in `alpha`. We set the number of comparisons to 20, and the alpha level to 5%. 
+
+```{r}
+library(normentR)
+FWER(n = 20, alpha = 0.05)
+```
+
+We find that the FWER for 20 comparisons at significance level 5% is about equal to 64%. So there's a 64% chance that when we run 20 comparisons, and we don't chance the default significance level from 5%, and we don't correct for multiple testing, we find at least one result that is statistically significant. Let's try this again with 50 comparisons.
+
+```{r}
+FWER(n = 50, alpha = 0.05)
+```
+
+I've made a little calculator to visually show how the family-wise error rate changes based on the number of tests and the significance threshold. See how lowering the significance threshold (α-level) reduces your chance of a false positive dramatically, and how quickly the chance of at least one false positive increases with the number of comparisons. If you approach 200 comparisons, the FWER shows 100%, this is of course impossible, but I chose to include it anyway, since it's 100% for all practical purposes.
+
+<iframe src="https://danielroelfs.shinyapps.io/FWER_simple" width="100%" height="400px" frameBorder="0"></iframe>
+
+Now the probability of finding AT LEAST one significant result with 50 comparisons at the same parameters is more than 92%! Unfortunately, it's not uncommon not to correct for multiple testing, and it's a major contributer for experiments to fail to replicate. Especially when this is combined with p-hacking, which is the procedure in which researchers only report the significant results, and pretend that this was their hypothesis all along, neglecting to explicitely state the other hypotheses they tested but that didn't yield significant results. It's one of the gravest violations of good scientific practice.
+
+So how do we fix this? The most popular method to correct for multiple testing is adjusting the significance level for the number of comparisons in the experiment by dividing the significance level by the number of comparisons. This is called the Bonferroni correction. So let's say we run 20 tests, then we need to divide the significance level (default at 5%) by 20, which makes 0.25%, and that's the threshold at which we accept results to be statically significant. Let's say the p-values look like this:
+
+```{r echo=FALSE}
+set.seed(1234)
+pvalues <- c(0.004, sample(seq(0,1,0.01), 19))
+pvalues <- sample(pvalues)
+```
+
+```{r}
+print(pvalues)
+```
+
+So we find that we have three tests that were significant! Great, let's write the manuscript! But first we want to correct for multiple testing. Let's do Bonferonni first, so then we divide the p-values by the number of comparisons. Obviously, there's a convenient function in R to do this for us, `p.adjust()`. It takes the list of p-values and then the method by which you want to correct for multiple testing, in this case Bonferroni.
+
+```{r}
+p.adjust(pvalues, method = "bonferroni")
+```
+
+The `p.adjust()` function takes multiple methods, another popular method is the False Discovery Rate (FDR) or the Holm or Hochberg method. Let's try False Discovery Rate too, just for comparison.
+
+```{r}
+p.adjust(pvalues, method = "fdr")
+```
+
+We can see that the Bonferroni method is stricter than FDR, you should judge on a case-by-case basis what is the most appropriate method for you, but usually it's the Bonferroni correction. I hope I've made abundantly clear why correcting for multiple testing is important, and why not correcting will result in false positive results!

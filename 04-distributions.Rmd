@@ -65,7 +65,7 @@ hist(outcomes, breaks = 1:12)
 
 In the figure below, I've included an animation of how ten different random experiments plot on top of the theoretical probability distribution:
 
-```{r echo=FALSE, fig.show='hold', fig.align='center', eval=FALSE}
+```{r echo=FALSE, fig.show='hold', fig.align='center', eval=TRUE}
 
 library(gganimate)
 

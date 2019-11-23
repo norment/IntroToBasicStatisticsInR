@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Basic Statistics | Introduction To Basic Statistics in R</title>
+  <meta name="description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  <meta name="generator" content="bookdown 0.15.5 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Basic Statistics | Introduction To Basic Statistics in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Basic Statistics | Introduction To Basic Statistics in R" />
+  
+  <meta name="twitter:description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
+  
+
+<meta name="author" content="Version 1.1.0" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="distributions-probabilities.html"/>
+<link rel="next" href="probability-values.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Basic Statistics in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="firstlook.html"><a href="firstlook.html"><i class="fa fa-check"></i><b>2</b> First look at R</a></li>
+<li class="chapter" data-level="3" data-path="definitions-of-basic-princples.html"><a href="definitions-of-basic-princples.html"><i class="fa fa-check"></i><b>3</b> Definitions of basic princples</a></li>
+<li class="chapter" data-level="4" data-path="uncertainty.html"><a href="uncertainty.html"><i class="fa fa-check"></i><b>4</b> Uncertainty</a></li>
+<li class="chapter" data-level="5" data-path="distributions-probabilities.html"><a href="distributions-probabilities.html"><i class="fa fa-check"></i><b>5</b> Distributions &amp; Probabilities</a></li>
+<li class="chapter" data-level="6" data-path="basic-statistics.html"><a href="basic-statistics.html"><i class="fa fa-check"></i><b>6</b> Basic Statistics</a><ul>
+<li class="chapter" data-level="6.1" data-path="basic-statistics.html"><a href="basic-statistics.html#hypotheses-and-the-t-test"><i class="fa fa-check"></i><b>6.1</b> Hypotheses and the T-test</a></li>
+<li class="chapter" data-level="6.2" data-path="basic-statistics.html"><a href="basic-statistics.html#anova"><i class="fa fa-check"></i><b>6.2</b> ANOVA</a></li>
+<li class="chapter" data-level="6.3" data-path="basic-statistics.html"><a href="basic-statistics.html#correlation"><i class="fa fa-check"></i><b>6.3</b> Correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="probability-values.html"><a href="probability-values.html"><i class="fa fa-check"></i><b>7</b> Probability values</a></li>
+<li class="chapter" data-level="8" data-path="the-multiple-testing-problem.html"><a href="the-multiple-testing-problem.html"><i class="fa fa-check"></i><b>8</b> The Multiple Testing Problem</a></li>
+<li class="chapter" data-level="9" data-path="power-analysis.html"><a href="power-analysis.html"><i class="fa fa-check"></i><b>9</b> Power Analysis</a></li>
+<li class="chapter" data-level="10" data-path="plotting.html"><a href="plotting.html"><i class="fa fa-check"></i><b>10</b> Plotting</a><ul>
+<li class="chapter" data-level="10.1" data-path="plotting.html"><a href="plotting.html#basics-mapping"><i class="fa fa-check"></i><b>10.1</b> Basics &amp; Mapping</a></li>
+<li class="chapter" data-level="10.2" data-path="plotting.html"><a href="plotting.html#types-of-plot"><i class="fa fa-check"></i><b>10.2</b> Types of plot</a></li>
+<li class="chapter" data-level="10.3" data-path="plotting.html"><a href="plotting.html#layout-and-style"><i class="fa fa-check"></i><b>10.3</b> Layout and Style</a></li>
+<li class="chapter" data-level="10.4" data-path="plotting.html"><a href="plotting.html#themes"><i class="fa fa-check"></i><b>10.4</b> Themes</a></li>
+<li class="chapter" data-level="10.5" data-path="plotting.html"><a href="plotting.html#statistics-in-plots"><i class="fa fa-check"></i><b>10.5</b> Statistics in plots</a></li>
+<li class="chapter" data-level="10.6" data-path="plotting.html"><a href="plotting.html#norment-options"><i class="fa fa-check"></i><b>10.6</b> NORMENT options</a></li>
+<li class="chapter" data-level="10.7" data-path="plotting.html"><a href="plotting.html#more-examples"><i class="fa fa-check"></i><b>10.7</b> More examples</a></li>
+<li class="chapter" data-level="10.8" data-path="plotting.html"><a href="plotting.html#repeated-meausures-anova"><i class="fa fa-check"></i><b>10.8</b> Repeated-Meausures ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="a-full-analysis-script.html"><a href="a-full-analysis-script.html"><i class="fa fa-check"></i><b>11</b> A Full Analysis Script</a></li>
+<li class="chapter" data-level="12" data-path="futher-reading.html"><a href="futher-reading.html"><i class="fa fa-check"></i><b>12</b> Futher Reading</a></li>
+<li class="chapter" data-level="13" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html"><i class="fa fa-check"></i><b>13</b> Appendix: semi-advanced R</a><ul>
+<li class="chapter" data-level="13.1" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#sharing-your-data"><i class="fa fa-check"></i><b>13.1</b> Sharing your data</a></li>
+<li class="chapter" data-level="13.2" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#for-loops"><i class="fa fa-check"></i><b>13.2</b> For-loops</a></li>
+<li class="chapter" data-level="13.3" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#the-pipe"><i class="fa fa-check"></i><b>13.3</b> The pipe</a></li>
+<li class="chapter" data-level="13.4" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#working-with-dates"><i class="fa fa-check"></i><b>13.4</b> Working with dates</a></li>
+<li class="chapter" data-level="13.5" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#animations"><i class="fa fa-check"></i><b>13.5</b> Animations</a></li>
+<li class="chapter" data-level="13.6" data-path="appendix-semi-advanced-r.html"><a href="appendix-semi-advanced-r.html#cowplot"><i class="fa fa-check"></i><b>13.6</b> Cowplot</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html"><i class="fa fa-check"></i><b>14</b> Appendix: semi-advanced statistics</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html#anova-1"><i class="fa fa-check"></i><b>14.1</b> ANOVA</a></li>
+<li class="chapter" data-level="14.2" data-path="appendix-semi-advanced-statistics.html"><a href="appendix-semi-advanced-statistics.html#everything-is-a-linear-model"><i class="fa fa-check"></i><b>14.2</b> Everything is a linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/norment" target="blank">Created for NORMENT</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction To Basic Statistics in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basic-statistics" class="section level1">
+<h1><span class="header-section-number">6</span> Basic Statistics</h1>
+<div id="hypotheses-and-the-t-test" class="section level2">
+<h2><span class="header-section-number">6.1</span> Hypotheses and the T-test</h2>
+<p>Let’s go back to the example with the history exam. We’ve had two groups of students take the same exam. A group of students from a primary school, and a group of students from a high school. Before we started the exam, we predicted that the high school students would score higher on average. That was our hypothesis. In hypothesis testing, as a rule there’s always two hypothesis, the null-hypothesis and the alternative hypothesis. The alternative hypothesis (also referred to as H<sub>a</sub>) is the statement we just made: “high school students score on average higher on this test than primary school students”. The null hypothesis (or H<sub>0</sub>) is defined as the negation of the alternative hypothesis. In this case the null hypothesis is something like “the high school students do not score higher on average than the primary school students”, or “there is no difference in the average score between the primary school stundents and the high school students”.</p>
+<p>We can test whether this hypothesis is true with a statistical test. How exciting! The most appropriate test here is a T-test. We choose a T-test here because we have two groups that we want to compare, and the data in each group is a set of numbers. The function in R to perform a T-test is aptly named <code>t.test()</code>. This function takes either one or two sets of data. If you supply only one set of data, then the function compares that data to a normal distribution centered around 0. The T-test is only reliable when the data is normally distributed, but we showed earlier that this was the case, so we can move on and perform the test.</p>
+<p>There are a few options that we can set in the <code>t.test()</code> function. Since our hypothesis stated that we exptect primary school students to score on average lower than the high school students, we don’t use a two-tailed test, but rather a one-tailed test. We can set this in the <code>alternative</code> field.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="basic-statistics.html#cb39-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  data$scores and data_highschool$scores
+## t = -1.6868, df = 4.3495, p-value = 0.08058
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##       -Inf 0.4940209
+## sample estimates:
+## mean of x mean of y 
+##       6.6       8.7</code></pre>
+<p>There’s a few more options that we can set, and I’ll quickly go over them below, R has default settings for a number of these options, so it’s not always necessary to set these explicitely.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="basic-statistics.html#cb41-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="co"># The two sets of data to compare</span></span>
+<span id="cb41-2"><a href="basic-statistics.html#cb41-2"></a>       <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>, <span class="co"># Other options are &quot;two.sided&quot; or &quot;greater&quot;</span></span>
+<span id="cb41-3"><a href="basic-statistics.html#cb41-3"></a>       <span class="dt">mu =</span> <span class="dv">0</span>, <span class="co"># Relevant if we supplied only one set of values, otherwise</span></span>
+<span id="cb41-4"><a href="basic-statistics.html#cb41-4"></a>       <span class="co"># this sets the mean value for the perfect normal distribution</span></span>
+<span id="cb41-5"><a href="basic-statistics.html#cb41-5"></a>       <span class="dt">paired =</span> <span class="ot">FALSE</span>, <span class="co"># Is this a paired T-test? Alternative input: TRUE</span></span>
+<span id="cb41-6"><a href="basic-statistics.html#cb41-6"></a>       <span class="dt">var.equal =</span> <span class="ot">FALSE</span>, <span class="co"># Can equal variance be assumed? Alternative: TRUE</span></span>
+<span id="cb41-7"><a href="basic-statistics.html#cb41-7"></a>       <span class="dt">conf.level =</span> <span class="fl">0.95</span>) <span class="co"># Confidence level</span></span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  data$scores and data_highschool$scores
+## t = -1.6868, df = 4.3495, p-value = 0.08058
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##       -Inf 0.4940209
+## sample estimates:
+## mean of x mean of y 
+##       6.6       8.7</code></pre>
+<p>Here we find that there is no significant difference in the scores between primary school and high school students. This is somewhat surprising, since the values are very different. The reason we didn’t get a significant result here is likely because both groups contained only five students, and this is very low for a statistical test. We should definitely include more participants. Ideally, we would perform a power analysis before we even started the experiment, but we’ll get to that later.</p>
+<p>So let’s just for the sake of argument, say that we tested 10 students in each group, what would it look like then. The new datasets are as follow:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="basic-statistics.html#cb43-1"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb43-2"><a href="basic-statistics.html#cb43-2"></a>  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Lucas&quot;</span>, <span class="st">&quot;Linn&quot;</span>, <span class="st">&quot;Thomas&quot;</span>, <span class="st">&quot;Sara&quot;</span>, <span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Hassan&quot;</span>, <span class="st">&quot;Ingvild&quot;</span>, <span class="st">&quot;Jostein&quot;</span>, <span class="st">&quot;Yuri&quot;</span>, <span class="st">&quot;Olav&quot;</span>),</span>
+<span id="cb43-3"><a href="basic-statistics.html#cb43-3"></a>  <span class="dt">scores =</span> <span class="kw">c</span>(<span class="fl">7.5</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="fl">6.5</span>, <span class="dv">9</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="fl">6.5</span>, <span class="fl">7.5</span>)</span>
+<span id="cb43-4"><a href="basic-statistics.html#cb43-4"></a>)</span>
+<span id="cb43-5"><a href="basic-statistics.html#cb43-5"></a></span>
+<span id="cb43-6"><a href="basic-statistics.html#cb43-6"></a>data_highschool &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb43-7"><a href="basic-statistics.html#cb43-7"></a>  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Alex&quot;</span>, <span class="st">&quot;Solveig&quot;</span>, <span class="st">&quot;Ivar&quot;</span>, <span class="st">&quot;Yasmin&quot;</span>, <span class="st">&quot;Tobbe&quot;</span>, <span class="st">&quot;Christine&quot;</span>, <span class="st">&quot;Johannes&quot;</span>, <span class="st">&quot;Mo&quot;</span>, <span class="st">&quot;Trude&quot;</span>, <span class="st">&quot;Trygve&quot;</span>),</span>
+<span id="cb43-8"><a href="basic-statistics.html#cb43-8"></a>  <span class="dt">scores =</span> <span class="kw">c</span>(<span class="fl">8.5</span>, <span class="dv">9</span>, <span class="fl">8.5</span>, <span class="fl">9.5</span>, <span class="dv">8</span>, <span class="fl">8.5</span>, <span class="dv">9</span>, <span class="fl">8.5</span>, <span class="fl">9.5</span>, <span class="dv">8</span>)</span>
+<span id="cb43-9"><a href="basic-statistics.html#cb43-9"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="basic-statistics.html#cb44-1"></a><span class="kw">print</span>(data)</span></code></pre></div>
+<pre><code>##      names scores
+## 1    Lucas    7.5
+## 2     Linn    8.0
+## 3   Thomas    2.0
+## 4     Sara    6.5
+## 5     Anna    9.0
+## 6   Hassan    5.0
+## 7  Ingvild    6.0
+## 8  Jostein    8.0
+## 9     Yuri    6.5
+## 10    Olav    7.5</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="basic-statistics.html#cb46-1"></a><span class="kw">print</span>(data_highschool)</span></code></pre></div>
+<pre><code>##        names scores
+## 1       Alex    8.5
+## 2    Solveig    9.0
+## 3       Ivar    8.5
+## 4     Yasmin    9.5
+## 5      Tobbe    8.0
+## 6  Christine    8.5
+## 7   Johannes    9.0
+## 8         Mo    8.5
+## 9      Trude    9.5
+## 10    Trygve    8.0</code></pre>
+<p>You rerun the same code we used earlier to see if the mean score is still the same for both groups, how much the standard deviation has changed, and whether the data is still roughly normally distributed. If we run the same code for the t-test again now, we get a whole different result:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="basic-statistics.html#cb48-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  data$scores and data_highschool$scores
+## t = -3.2318, df = 10.315, p-value = 0.004325
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##        -Inf -0.9259259
+## sample estimates:
+## mean of x mean of y 
+##       6.6       8.7</code></pre>
+<p>Again, this is just for educational purpose now. In a real scientific setting, you would determine the number of experiments you need to perform up front and report that before you start experimenting. It is generally considered bad practice to keep testing and testing until you get the result you wanted all along.</p>
+<p>Back to the result, the ouput from the <code>t.test()</code> function is pretty self-explanatory. For this example, we accept a p-value lower than 0.05 as a significant result. Make sure to also look at the t-statistic and the degrees of freedom.</p>
+</div>
+<div id="anova" class="section level2">
+<h2><span class="header-section-number">6.2</span> ANOVA</h2>
+<p>Let’s say you design a new experiment, and now you also add a third group of students, all university students in the first year of their bachelor in history. Try running the same tests again for this group. You’ll find that this set of data is still rougly normally distributed and the mean score lies higher than the other two groups. Their results look like this:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="basic-statistics.html#cb50-1"></a><span class="kw">print</span>(data_university)</span></code></pre></div>
+<pre><code>##       names scores
+## 1    Johnny    9.0
+## 2     Synne    9.5
+## 3    Petter   10.0
+## 4     Yusuf   10.0
+## 5   Christy    9.0
+## 6      Olek    9.5
+## 7  Abdullah    9.5
+## 8       Jan   10.0
+## 9    Emilie   10.0
+## 10    Roger    8.5</code></pre>
+<p>Since we now have three data frames to work with, it starts to become a little messy, that’s why I combined all three data frames into one, and added a column specifying the group each individual student belonged to:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="basic-statistics.html#cb52-1"></a><span class="kw">print</span>(data_comb)</span></code></pre></div>
+<pre><code>##        names          group scores
+## 1      Lucas Primary School    7.5
+## 2       Linn Primary School    8.0
+## 3     Thomas Primary School    2.0
+## 4       Sara Primary School    6.5
+## 5       Anna Primary School    9.0
+## 6     Hassan Primary School    5.0
+## 7    Ingvild Primary School    6.0
+## 8    Jostein Primary School    8.0
+## 9       Yuri Primary School    6.5
+## 10      Olav Primary School    7.5
+## 11      Alex    High School    8.5
+## 12   Solveig    High School    9.0
+## 13      Ivar    High School    8.5
+## 14    Yasmin    High School    9.5
+## 15     Tobbe    High School    8.0
+## 16 Christine    High School    8.5
+## 17  Johannes    High School    9.0
+## 18        Mo    High School    8.5
+## 19     Trude    High School    9.5
+## 20    Trygve    High School    8.0
+## 21    Johnny     University    9.0
+## 22     Synne     University    9.5
+## 23    Petter     University   10.0
+## 24     Yusuf     University   10.0
+## 25   Christy     University    9.0
+## 26      Olek     University    9.5
+## 27  Abdullah     University    9.5
+## 28       Jan     University   10.0
+## 29    Emilie     University   10.0
+## 30     Roger     University    8.5</code></pre>
+<p>If we now want to test whether there is a difference in scores between the three groups, we cannot use a T-test anymore. To compare the mean value of multiple groups, we use an Analysis of Variance, better known as an ANOVA. Performing an ANOVA in R is twice as complicated as a T-test in that running an ANOVA takes two lines of code instead of one. First we need to set up the model that we want to test with possible covariates (which we don’t have at the moment). The function for setting up the ANOVA formula is <code>aov()</code>.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="basic-statistics.html#cb54-1"></a>model &lt;-<span class="st"> </span><span class="kw">aov</span>(scores <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span></code></pre></div>
+<p>Then we can run the actual ANOVA command, which is called <code>anova()</code>. This function takes the model and runs the ANOVA statical test. It prints again a list of pretty straight-forward output. In most cases, you’re just interested in the line with the grouping variable, we can ignore the row with “Residuals” for now.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="basic-statistics.html#cb55-1"></a><span class="kw">anova</span>(model)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: scores
+##           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## group      2 44.867  22.433  14.956 4.249e-05 ***
+## Residuals 27 40.500   1.500                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We find that there is a significant effect of the grouping variable on the score. And the effect size (denoted by the F-value) is high too. Success! But the output we now have is the bare minimum we need to report in articles etc., but we can do better. Remember the T-test we ran earlier? That was a comparison between primary school students and high school students, but now that we have three groups we can make two more comparisons, [High School-Universtity], and [Primary School-University]. You could do this with independent T-tests, but it’s important to remember that we then effectively run 3 T-tests within the same dataset. A T-test is appropriate when you have independent groups, but when we run this three-way T-test, the tests are not really independent anymore, since each group will appear twice in each comparison. And it’s very imporant that we take this into account. So what do we do when we want to run T-tests within a comparison of three groups to see what drives the effect we observed when we ran the ANOVA? There’s a function called the <code>pairwise.t.test()</code>, which does exactly what we decribed above, but it’s not what we want in this case. What we do want is to run a post-hoc test!</p>
+<p>Again, this is just a simple single line of code. There’s multiple options for post-hoc available in R, but we use the most common one is the Tukey’s Honest Significant Differences test, commonly known as Tukey’s post-hoc test. Tukey’s post-hoc test is only relevant when you want to run pairwise T-tests on all possible combinations of groups, as we do here. The function for this in R is <code>TukeyHSD()</code>. It requires only the ANOVA model we created earlier using the <code>aov()</code> function. Since there’s now three groups in the statistical test, we cannot specify whether we want a one-tailed or two-tailed test. So for comparison, let’s run the T-test again for the comparison between primary school and high school students, but let it be a two-tailed test this time. Let’s do it:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="basic-statistics.html#cb57-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  data$scores and data_highschool$scores
+## t = -3.2318, df = 10.315, p-value = 0.00865
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -3.5418444 -0.6581556
+## sample estimates:
+## mean of x mean of y 
+##       6.6       8.7</code></pre>
+<p>Now that we have that for comparison, let’s now run Tukey’s post-hoc test:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="basic-statistics.html#cb59-1"></a><span class="kw">TukeyHSD</span>(model)</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = scores ~ group, data = data_comb)
+## 
+## $group
+##                            diff       lwr      upr     p adj
+## High School-Primary School  2.1  0.741967 3.458033 0.0019198
+## University-Primary School   2.9  1.541967 4.258033 0.0000401
+## University-High School      0.8 -0.558033 2.158033 0.3252891</code></pre>
+<p>The ouput from this is relatively simple, it shows the output from the pairwise tests it performed, with the mean difference, the upper and lower bounds, and the adjusted p-value. Note that the p-value for the comparison between primary school students and high school students is higher in the post-hoc test than in the T-test. This is because the post-hoc test automatically corrects for multiple testing. I’ll dedicate an entire section to the multiple testing problem and why it’s important, and why it’s one of the most severe errors made in statistics. Unfortunately, it’s also a very common mistake.</p>
+</div>
+<div id="correlation" class="section level2">
+<h2><span class="header-section-number">6.3</span> Correlation</h2>
+<p>Now for the last statistical test that is quite common in clinical research, the correlation. Let’s say we take the same dataset, and we also gathered data on the parent’s income. Then we can see how the parents income affect their children’s performance in school. While this may not have a direct effect, wealthy parents might be more able to afford tutoring, and wealthy parents are more likely to live in nice neighbourhoods and provide a good situation for the child to do homework. This means that income might be a proxy for other factors. Let’s say the new data looks like this:</p>
+<pre><code>##  [1] 1850000  650000  650000  400000 1250000  450000  550000 2000000  500000  450000  950000
+## [12]  500000 1500000  950000 1650000 2000000  850000 2000000  750000  700000 1650000  600000
+## [23] 1550000 1500000 1050000 1050000 1800000  900000 1900000  650000</code></pre>
+<p>So now we can run a correlation. The simplest way to do this is by using the <code>cor.test()</code> function. It behaves the same was as the <code>t.test()</code> function, but now it takes two continuous variables as input. Now we use a two-sided hypothesis, and want to use Spearman’s Rank test, which is set in the <code>method</code> option in the <code>cor.test()</code> function. Let’s do it:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="basic-statistics.html#cb62-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$scores, data_comb$income_parents, : Cannot compute exact p-
+## value with ties</code></pre>
+<pre><code>## 
+##  Spearman&#39;s rank correlation rho
+## 
+## data:  data_comb$scores and data_comb$income_parents
+## S = 2745.3, p-value = 0.03349
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##       rho 
+## 0.3892626</code></pre>
+<p>So we can see that there is an effect of parent’s income on test scores, and it’s significant too. But we’ve overlooked one big thing, that the students in the dataset that scored the highest were the university students, and it is probable that there might be a bias in the dataset since university students are maybe more likely have wealthy parents, than primary school students or high school students. We want to correct for this. Instead of manually running the test three times, I would recommend to “regress out” the group variable from the scores. We do this by running a linear model with the <code>group</code> as the covariate to regress out and the look at the residual scores. We can “residualize” the data as it’s called by using the <code>lm()</code> function. The input for this is similar to that of the <code>aov()</code> option. Just to compare I will run it twice, once correcting for group, and once without covariate.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="basic-statistics.html#cb65-1"></a>lm_model_nocov &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents, <span class="dt">data =</span> data_comb)</span>
+<span id="cb65-2"><a href="basic-statistics.html#cb65-2"></a>lm_model &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents <span class="op">+</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span>
+<span id="cb65-3"><a href="basic-statistics.html#cb65-3"></a></span>
+<span id="cb65-4"><a href="basic-statistics.html#cb65-4"></a>data_comb<span class="op">$</span>scores_resid_nocov &lt;-<span class="st"> </span>lm_model_nocov<span class="op">$</span>residuals</span>
+<span id="cb65-5"><a href="basic-statistics.html#cb65-5"></a>data_comb<span class="op">$</span>scores_resid &lt;-<span class="st"> </span>lm_model<span class="op">$</span>residuals</span></code></pre></div>
+<p>The mean of a residualized variable is by definition 0, but doesn’t have to be normally distributed. In our case here, both residualized variables aren’t actually normally distributed since outliers in the regular data will be outliers in the residualized data too. Let’s check the boxplot:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="basic-statistics.html#cb66-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid)</span></code></pre></div>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So now that we’ve “regressed out” the grouping variable, we now have a cleaner set of data to estimate the effect of parental income on test scores with. Let’s do it using the same method we used before:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="basic-statistics.html#cb67-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$scores_resid, data_comb$income_parents, : Cannot compute
+## exact p-value with ties</code></pre>
+<pre><code>## 
+##  Spearman&#39;s rank correlation rho
+## 
+## data:  data_comb$scores_resid and data_comb$income_parents
+## S = 4956.8, p-value = 0.5891
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##        rho 
+## -0.1027299</code></pre>
+<p>That’s very interesting, it seems that when not correcting for the student’s current educiaton level, there is a significant correlation between income and the student’s test scores, but when you correct for the group the students were in, this relationship disappears. It seems that the grouping variable was driving the assocation in this case.</p>
+<p>Let’s have another look at the residuals. When we regressed out the grouping variable, I also did it once without correcting for the group. I just wanted to show the difference between the two to illustrate the effect that regressing categorical variables has on the data. Hopefully I’ll convince you to correct for variables often and early in the process. Let’s compare the distributions of both the corrected and uncorrected data.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="basic-statistics.html#cb70-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>scores_resid_nocov, <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Corrected&quot;</span>, <span class="st">&quot;Uncorrected&quot;</span>))</span></code></pre></div>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The difference is subtle, but you can see that the first boxplot has a narrower confidence interval and smaller error bars. So both boxplots contain data from the same observation, so we can also see how the data points change for each group when we take the uncorrected residualized data and the corrected residualized data. Let’s plot it like a scatter plot and plot the income of the parents on the x-axis, and the residualized scores on the y-axis. The small dots indicate the uncorrected data, and the larger dots indicate the data corrected for group.</p>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>You can see that the adjustment direction is consistent across the three groups, but the size of the adjustment varies across individuals. You may also notice that the data points on the left side of the plot are mostly primary school children, while the other two groups are more distributed across the x-axis. Let’s do the statistics again.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="basic-statistics.html#cb71-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>income_parents, data_comb<span class="op">$</span>scores_resid, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$income_parents, data_comb$scores_resid, : Cannot compute
+## exact p-value with ties</code></pre>
+<pre><code>## 
+##  Spearman&#39;s rank correlation rho
+## 
+## data:  data_comb$income_parents and data_comb$scores_resid
+## S = 4956.8, p-value = 0.5891
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##        rho 
+## -0.1027299</code></pre>
+<p>Right! So now the significant effect has dissappeared, just because we regressed out the education levels from the scores. Another way of getting to this conclusion is to look at the raw output from the <code>lm()</code> model. Here again the <code>summary()</code> function comes in useful. Remember we saved the output from the <code>lm()</code> function in a variable called <code>lm_model</code>, we can use that now to look at what the linear model said about the predictor of scores.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="basic-statistics.html#cb74-1"></a><span class="kw">summary</span>(lm_model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = scores ~ income_parents + group, data = data_comb)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.4772 -0.4321  0.1354  0.6261  2.1954 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     7.662e+00  5.214e-01  14.696 4.16e-14 ***
+## income_parents  5.457e-07  4.261e-07   1.281    0.212    
+## group.L         1.900e+00  4.004e-01   4.745 6.58e-05 ***
+## group.Q        -4.795e-01  3.849e-01  -1.246    0.224    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.21 on 26 degrees of freedom
+## Multiple R-squared:  0.5537, Adjusted R-squared:  0.5022 
+## F-statistic: 10.75 on 3 and 26 DF,  p-value: 8.913e-05</code></pre>
+<p>While there is a significant effect of group (which we already knew from the ANOVA we ran earlier), we can see that the income from the parents is not a significant predictor of test scores in this dataset. At this point you might go, “wait, why does this regression model also tell us stuff the ANOVA told us?”. The short answer is that any ANOVA is at it’s core basically a linear model, why and how that works is somewhat technical and complicated, and I won’t go into it now. For most practical purposes, you may continue using ANOVAs and regression models as if they’re two separate things entirely. Even if it was just because post-hoc tests are built around the structure of an ANOVA, and not linear models.</p>
+<p>Okay, now that we’ve covered some of the most common statistical tests in clinical research, I think it’s important to talk about p-values, and why some of the nice p-values lower than 0.05 we found earlier are pretty useless for most purposes.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="distributions-probabilities.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="probability-values.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": false,
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
