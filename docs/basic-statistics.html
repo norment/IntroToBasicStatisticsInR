@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Basic Statistics | Introduction To Basic Statistics in R</title>
   <meta name="description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
-  <meta name="generator" content="bookdown 0.15.5 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16.1 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Basic Statistics | Introduction To Basic Statistics in R" />
   <meta property="og:type" content="book" />
@@ -366,6 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## University-Primary School   2.9  1.541967 4.258033 0.0000401
 ## University-High School      0.8 -0.558033 2.158033 0.3252891</code></pre>
 <p>The ouput from this is relatively simple, it shows the output from the pairwise tests it performed, with the mean difference, the upper and lower bounds, and the adjusted p-value. Note that the p-value for the comparison between primary school students and high school students is higher in the post-hoc test than in the T-test. This is because the post-hoc test automatically corrects for multiple testing. I’ll dedicate an entire section to the multiple testing problem and why it’s important, and why it’s one of the most severe errors made in statistics. Unfortunately, it’s also a very common mistake.</p>
+<p>Be also aware that there’s different ways of going about calculating ANOVA. In order to perform the calculation, one needs to calculate a parameter called the “sum of squares”. There’s three different ways of calculating the sum of squares, Type I, Type II, and Type III. We might go more in-depth later on what the difference in between these, but the important part here is that one might get different results based on the type used and SPSS and R have different default settings on how to calculate it. So if you’re trying to compare your results from SPSS with the results from R, then you might get different results. So be aware! If you want to use Type III sum of squares in R, you can run the ANOVA implementation in the <code>{afex}</code> package. If your data is normally distributed and the factors are orthogonal, then the three types will give the same result, but if not, then keep this in mind!</p>
 </div>
 <div id="correlation" class="section level2">
 <h2><span class="header-section-number">6.3</span> Correlation</h2>
