@@ -251,75 +251,6 @@ So let’s say we want to throw a pair of dice 100 times, to simulate this in R,
 <p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In the figure below, I’ve included an animation of how ten different random experiments plot on top of the theoretical probability distribution:</p>
 <pre><code>## 
-Rendering [&gt;---------------------------------------------------------------] at 5 fps ~ eta: 20s
-Rendering [=&gt;------------------------------------------------------------] at 4.8 fps ~ eta: 20s
-Rendering [=&gt;------------------------------------------------------------] at 4.9 fps ~ eta: 19s
-Rendering [==&gt;-----------------------------------------------------------] at 4.9 fps ~ eta: 19s
-Rendering [===&gt;----------------------------------------------------------] at 4.9 fps ~ eta: 19s
-Rendering [====&gt;---------------------------------------------------------] at 4.9 fps ~ eta: 19s
-Rendering [=====&gt;--------------------------------------------------------] at 4.9 fps ~ eta: 18s
-Rendering [======&gt;-------------------------------------------------------] at 4.9 fps ~ eta: 18s
-Rendering [=======&gt;--------------------------------------------------------] at 5 fps ~ eta: 18s
-Rendering [=======&gt;------------------------------------------------------] at 4.9 fps ~ eta: 18s
-Rendering [========&gt;-----------------------------------------------------] at 4.9 fps ~ eta: 18s
-Rendering [========&gt;-----------------------------------------------------] at 4.9 fps ~ eta: 17s
-Rendering [=========&gt;----------------------------------------------------] at 4.9 fps ~ eta: 17s
-Rendering [==========&gt;---------------------------------------------------] at 4.9 fps ~ eta: 17s
-Rendering [===========&gt;--------------------------------------------------] at 4.8 fps ~ eta: 17s
-Rendering [============&gt;-------------------------------------------------] at 4.8 fps ~ eta: 16s
-Rendering [=============&gt;------------------------------------------------] at 4.8 fps ~ eta: 16s
-Rendering [==============&gt;-----------------------------------------------] at 4.8 fps ~ eta: 16s
-Rendering [===============&gt;----------------------------------------------] at 4.8 fps ~ eta: 15s
-Rendering [================&gt;---------------------------------------------] at 4.8 fps ~ eta: 15s
-Rendering [=================&gt;--------------------------------------------] at 4.8 fps ~ eta: 15s
-Rendering [==================&gt;-------------------------------------------] at 4.8 fps ~ eta: 14s
-Rendering [===================&gt;------------------------------------------] at 4.8 fps ~ eta: 14s
-Rendering [====================&gt;-----------------------------------------] at 4.8 fps ~ eta: 14s
-Rendering [=====================&gt;----------------------------------------] at 4.8 fps ~ eta: 13s
-Rendering [======================&gt;---------------------------------------] at 4.8 fps ~ eta: 13s
-Rendering [=======================&gt;--------------------------------------] at 4.8 fps ~ eta: 13s
-Rendering [========================&gt;-------------------------------------] at 4.8 fps ~ eta: 13s
-Rendering [========================&gt;-------------------------------------] at 4.8 fps ~ eta: 12s
-Rendering [=========================&gt;------------------------------------] at 4.8 fps ~ eta: 12s
-Rendering [==========================&gt;-----------------------------------] at 4.8 fps ~ eta: 12s
-Rendering [===========================&gt;----------------------------------] at 4.8 fps ~ eta: 11s
-Rendering [============================&gt;---------------------------------] at 4.8 fps ~ eta: 11s
-Rendering [=============================&gt;--------------------------------] at 4.8 fps ~ eta: 11s
-Rendering [==============================&gt;-------------------------------] at 4.8 fps ~ eta: 10s
-Rendering [===============================&gt;------------------------------] at 4.8 fps ~ eta: 10s
-Rendering [================================&gt;-----------------------------] at 4.8 fps ~ eta: 10s
-Rendering [=================================&gt;----------------------------] at 4.8 fps ~ eta:  9s
-Rendering [==================================&gt;---------------------------] at 4.8 fps ~ eta:  9s
-Rendering [===================================&gt;--------------------------] at 4.8 fps ~ eta:  9s
-Rendering [====================================&gt;-------------------------] at 4.8 fps ~ eta:  9s
-Rendering [====================================&gt;-------------------------] at 4.8 fps ~ eta:  8s
-Rendering [=====================================&gt;------------------------] at 4.8 fps ~ eta:  8s
-Rendering [======================================&gt;-----------------------] at 4.8 fps ~ eta:  8s
-Rendering [=======================================&gt;----------------------] at 4.8 fps ~ eta:  7s
-Rendering [========================================&gt;---------------------] at 4.8 fps ~ eta:  7s
-Rendering [=========================================&gt;--------------------] at 4.8 fps ~ eta:  7s
-Rendering [==========================================&gt;-------------------] at 4.8 fps ~ eta:  6s
-Rendering [===========================================&gt;------------------] at 4.8 fps ~ eta:  6s
-Rendering [============================================&gt;-----------------] at 4.8 fps ~ eta:  6s
-Rendering [=============================================&gt;----------------] at 4.8 fps ~ eta:  5s
-Rendering [==============================================&gt;---------------] at 4.8 fps ~ eta:  5s
-Rendering [===============================================&gt;--------------] at 4.8 fps ~ eta:  5s
-Rendering [================================================&gt;-------------] at 4.8 fps ~ eta:  4s
-Rendering [=================================================&gt;------------] at 4.8 fps ~ eta:  4s
-Rendering [==================================================&gt;-----------] at 4.8 fps ~ eta:  4s
-Rendering [===================================================&gt;----------] at 4.8 fps ~ eta:  3s
-Rendering [====================================================&gt;---------] at 4.8 fps ~ eta:  3s
-Rendering [=====================================================&gt;--------] at 4.8 fps ~ eta:  3s
-Rendering [======================================================&gt;-------] at 4.8 fps ~ eta:  2s
-Rendering [=======================================================&gt;------] at 4.8 fps ~ eta:  2s
-Rendering [========================================================&gt;-----] at 4.8 fps ~ eta:  2s
-Rendering [=========================================================&gt;----] at 4.8 fps ~ eta:  1s
-Rendering [==========================================================&gt;---] at 4.8 fps ~ eta:  1s
-Rendering [===========================================================&gt;--] at 4.8 fps ~ eta:  1s
-Rendering [============================================================&gt;-] at 4.8 fps ~ eta:  0s
-Rendering [==============================================================] at 4.8 fps ~ eta:  0s
-                                                                                                </code></pre>
-<pre><code>## 
 Frame 1 (1%)
 Frame 2 (2%)
 Frame 3 (3%)
@@ -423,13 +354,13 @@ Frame 100 (100%)
 ## Finalizing encoding... done!</code></pre>
 <p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-28-1.gif" style="display: block; margin: auto;" /></p>
 <p>Some statistical tests that we cover later require that the data is normally distributed in order to output a reliable statistic. We can test whether or not the set of data we have is normally distributed by using a Shapiro-Wilk’s normality test. This test compares the distribution of our data with a perfectly normally distributed set of data with the same mean as our data. The R function to perform a Shapiro-Wilk’s test is <code>shapiro.test()</code>. The output of this function is a p-value indicating whether our data is significantly different from a normal distribution. So if our data is roughly normally distributed, the p-value is larger than 0.05, if our data is not normally distributed, it is significantly different from a normal distribution and the p-value will be below 0.05. Let’s try it on the scores from the history exam we used earlier!</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="distributions-probabilities.html#cb35-1"></a><span class="kw">shapiro.test</span>(data<span class="op">$</span>scores)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="distributions-probabilities.html#cb34-1"></a><span class="kw">shapiro.test</span>(data<span class="op">$</span>scores)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  data$scores
 ## W = 0.84665, p-value = 0.1841</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="distributions-probabilities.html#cb37-1"></a><span class="kw">shapiro.test</span>(data_highschool<span class="op">$</span>scores)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="distributions-probabilities.html#cb36-1"></a><span class="kw">shapiro.test</span>(data_highschool<span class="op">$</span>scores)</span></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
