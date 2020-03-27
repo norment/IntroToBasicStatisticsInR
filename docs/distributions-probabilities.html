@@ -352,7 +352,6 @@ Frame 98 (98%)
 Frame 99 (99%)
 Frame 100 (100%)
 ## Finalizing encoding... done!</code></pre>
-<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-28-1.gif" style="display: block; margin: auto;" /></p>
 <p>Some statistical tests that we cover later require that the data is normally distributed in order to output a reliable statistic. We can test whether or not the set of data we have is normally distributed by using a Shapiro-Wilk’s normality test. This test compares the distribution of our data with a perfectly normally distributed set of data with the same mean as our data. The R function to perform a Shapiro-Wilk’s test is <code>shapiro.test()</code>. The output of this function is a p-value indicating whether our data is significantly different from a normal distribution. So if our data is roughly normally distributed, the p-value is larger than 0.05, if our data is not normally distributed, it is significantly different from a normal distribution and the p-value will be below 0.05. Let’s try it on the scores from the history exam we used earlier!</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="distributions-probabilities.html#cb34-1"></a><span class="kw">shapiro.test</span>(data<span class="op">$</span>scores)</span></code></pre></div>
 <pre><code>## 

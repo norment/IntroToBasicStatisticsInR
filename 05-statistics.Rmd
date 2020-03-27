@@ -72,14 +72,14 @@ print(data_university)
 
 Since we now have three data frames to work with, it starts to become a little messy, that's why I combined all three data frames into one, and added a column specifying the group each individual student belonged to:
 
-```{r echo=FALSE}
-data_comb <- rbind(data, data_highschool, data_university) %>%
-  mutate(group = factor(rep(c("Primary School", "High School", "University"), each = 10),
-                        levels = c("Primary School", "High School", "University"), ordered = TRUE)) %>%
-  select(names, group, scores)
-```
-
 ```{r}
+data$group <- "Primary School"
+data_highschool$group <- "High School"
+data_university$group <- "University"
+
+data_comb <- rbind(data, data_highschool, data_university) %>%
+  mutate(group = factor(group, levels = c("Primary School", "High School", "University")))
+
 print(data_comb)
 ```
 

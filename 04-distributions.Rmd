@@ -65,7 +65,7 @@ hist(outcomes, breaks = 1:12)
 
 In the figure below, I've included an animation of how ten different random experiments plot on top of the theoretical probability distribution:
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.show='hold', fig.align='center', eval=TRUE}
+```{r echo=FALSE, fig.show='hold', fig.align='center', message=FALSE, warning=FALSE, eval=TRUE}
 
 library(gganimate)
 
@@ -93,7 +93,8 @@ for (i in 1:10) {
 outcomes_anim <- rbind(outcomes_anim, outcomes_anim %>% filter(it == 1) %>% mutate(it = 11)) %>%
   mutate(it = as.integer(it))
 
-ggplot() +
+invisible(
+distanim <- ggplot() +
   geom_col(data = norm, mapping = aes(x = sum_norm, y = prob_norm), 
            color = "black", fill = "black", alpha = 0.5) +
   geom_histogram(data = outcomes_anim, mapping = aes(x = sum_rand), 
@@ -107,6 +108,8 @@ ggplot() +
   ) +
   transition_time(it) +
   ease_aes('cubic-in-out')
+)
+print(distanim)
 ```
 
 Some statistical tests that we cover later require that the data is normally distributed in order to output a reliable statistic. We can test whether or not the set of data we have is normally distributed by using a Shapiro-Wilk's normality test. This test compares the distribution of our data with a perfectly normally distributed set of data with the same mean as our data. The R function to perform a Shapiro-Wilk's test is `shapiro.test()`. The output of this function is a p-value indicating whether our data is significantly different from a normal distribution. So if our data is roughly normally distributed, the p-value is larger than 0.05, if our data is not normally distributed, it is significantly different from a normal distribution and the p-value will be below 0.05. Let's try it on the scores from the history exam we used earlier!
