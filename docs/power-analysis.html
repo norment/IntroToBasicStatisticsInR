@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9 Power Analysis | Introduction To Basic Statistics in R</title>
   <meta name="description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
-  <meta name="generator" content="bookdown 0.16.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9 Power Analysis | Introduction To Basic Statistics in R" />
   <meta property="og:type" content="book" />
@@ -193,12 +193,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="power-analysis" class="section level1">
 <h1><span class="header-section-number">9</span> Power Analysis</h1>
 <p>The section above describes in part how to reduce the chance of making a Type I error, now I’ll go over how to diminish the opportunity of making Type II errors. The most common reason researchers get a Type I error is failure to detect an effect that is present in the population, but couldn’t be measured in the sample because the sample size was too small. Therefore, it is generally recommended to perform a power analysis before running an experiment. A power analysis estimates the number of participants you need to test in order to make adequate claims about wether the hypotheses are true or false. It is somewhat complex algorithm that I won’t go into, but the way to perform a power analysis in R is quite simple. The <code>{pwr}</code> package has a few functions for this. So first we load that package via <code>library(pwr)</code>, and then we estimate the power for the first experiment we used, comparing 5 primary school students with 5 high school students with a T-test. The function for this is called <code>pwr.t.test()</code>. And it takes a number of inputs.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="power-analysis.html#cb85-1"></a><span class="kw">library</span>(pwr)</span>
-<span id="cb85-2"><a href="power-analysis.html#cb85-2"></a><span class="kw">pwr.t.test</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># number of observations per sample</span></span>
-<span id="cb85-3"><a href="power-analysis.html#cb85-3"></a>           <span class="dt">d =</span> <span class="fl">0.2</span>, <span class="co"># precicted effect size (as Cohen&#39;s d)</span></span>
-<span id="cb85-4"><a href="power-analysis.html#cb85-4"></a>           <span class="dt">type =</span> <span class="st">&quot;two.sample&quot;</span>, <span class="co"># we have a two-sample T-test</span></span>
-<span id="cb85-5"><a href="power-analysis.html#cb85-5"></a>           <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>, <span class="co"># alternative hypothesis</span></span>
-<span id="cb85-6"><a href="power-analysis.html#cb85-6"></a>           <span class="dt">sig.level =</span> <span class="fl">0.05</span>) <span class="co"># significance level</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="power-analysis.html#cb86-1"></a><span class="kw">library</span>(pwr)</span>
+<span id="cb86-2"><a href="power-analysis.html#cb86-2"></a><span class="kw">pwr.t.test</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># number of observations per sample</span></span>
+<span id="cb86-3"><a href="power-analysis.html#cb86-3"></a>           <span class="dt">d =</span> <span class="fl">0.2</span>, <span class="co"># precicted effect size (as Cohen&#39;s d)</span></span>
+<span id="cb86-4"><a href="power-analysis.html#cb86-4"></a>           <span class="dt">type =</span> <span class="st">&quot;two.sample&quot;</span>, <span class="co"># we have a two-sample T-test</span></span>
+<span id="cb86-5"><a href="power-analysis.html#cb86-5"></a>           <span class="dt">alternative =</span> <span class="st">&quot;less&quot;</span>, <span class="co"># alternative hypothesis</span></span>
+<span id="cb86-6"><a href="power-analysis.html#cb86-6"></a>           <span class="dt">sig.level =</span> <span class="fl">0.05</span>) <span class="co"># significance level</span></span></code></pre></div>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
@@ -213,13 +213,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>But how did I determine the predicted effect size (Cohen’s d)? In a normal setting, you would do your literature reseach and deduce it from there. In this case, I just made it up, that is bad practice generally.</p>
 <p>Side note:
 If you need to calculate Cohen’s d in R, there’s a function in the <code>{normentR}</code> package called <code>cohens_d()</code> that does exactly that. Just input the same columns you would input to the <code>t.test()</code> function and it gives you Cohen’s d for that test. Let’s try it on our data. We already loaded the <code>{normentR}</code> package earlier.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="power-analysis.html#cb87-1"></a><span class="kw">cohens_d</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="power-analysis.html#cb88-1"></a><span class="kw">cohens_d</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores)</span></code></pre></div>
 <pre><code>## [1] -1.445319</code></pre>
 <p>Back to the power analysis. What about the ANOVA? Do we have enough power to detect an effect with three groups? We have again 10 pariticipants in each group, and we want to detect an effect of 0.8, measured as the F-statistic.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="power-analysis.html#cb89-1"></a><span class="kw">pwr.anova.test</span>(<span class="dt">k =</span> <span class="dv">3</span>, <span class="co"># number of groups</span></span>
-<span id="cb89-2"><a href="power-analysis.html#cb89-2"></a>               <span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># number of observations in each group</span></span>
-<span id="cb89-3"><a href="power-analysis.html#cb89-3"></a>               <span class="dt">f =</span> <span class="fl">0.8</span>, <span class="co"># effect size (as F-statistic)</span></span>
-<span id="cb89-4"><a href="power-analysis.html#cb89-4"></a>               <span class="dt">sig.level =</span> <span class="fl">0.05</span>) <span class="co"># significance level</span></span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="power-analysis.html#cb90-1"></a><span class="kw">pwr.anova.test</span>(<span class="dt">k =</span> <span class="dv">3</span>, <span class="co"># number of groups</span></span>
+<span id="cb90-2"><a href="power-analysis.html#cb90-2"></a>               <span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># number of observations in each group</span></span>
+<span id="cb90-3"><a href="power-analysis.html#cb90-3"></a>               <span class="dt">f =</span> <span class="fl">0.8</span>, <span class="co"># effect size (as F-statistic)</span></span>
+<span id="cb90-4"><a href="power-analysis.html#cb90-4"></a>               <span class="dt">sig.level =</span> <span class="fl">0.05</span>) <span class="co"># significance level</span></span></code></pre></div>
 <pre><code>## 
 ##      Balanced one-way analysis of variance power calculation 
 ## 

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Basic Statistics | Introduction To Basic Statistics in R</title>
   <meta name="description" content="This document serves as a simple introduction to some of the basic principles in statistics in R." />
-  <meta name="generator" content="bookdown 0.16.1 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Basic Statistics | Introduction To Basic Statistics in R" />
   <meta property="og:type" content="book" />
@@ -282,7 +282,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="anova" class="section level2">
 <h2><span class="header-section-number">6.2</span> ANOVA</h2>
 <p>Let’s say you design a new experiment, and now you also add a third group of students, all university students in the first year of their bachelor in history. Try running the same tests again for this group. You’ll find that this set of data is still rougly normally distributed and the mean score lies higher than the other two groups. Their results look like this:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="basic-statistics.html#cb49-1"></a><span class="kw">print</span>(data_university)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="basic-statistics.html#cb49-1"></a>data_university &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb49-2"><a href="basic-statistics.html#cb49-2"></a>  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Johnny&quot;</span>, <span class="st">&quot;Synne&quot;</span>, <span class="st">&quot;Petter&quot;</span>, <span class="st">&quot;Yusuf&quot;</span>, <span class="st">&quot;Christy&quot;</span>, <span class="st">&quot;Olek&quot;</span>, <span class="st">&quot;Abdullah&quot;</span>, <span class="st">&quot;Jan&quot;</span>, <span class="st">&quot;Emilie&quot;</span>, <span class="st">&quot;Roger&quot;</span>),</span>
+<span id="cb49-3"><a href="basic-statistics.html#cb49-3"></a>  <span class="dt">scores =</span> <span class="kw">c</span>(<span class="dv">9</span>, <span class="fl">9.5</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">9</span>, <span class="fl">9.5</span>, <span class="fl">9.5</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="fl">8.5</span>)</span>
+<span id="cb49-4"><a href="basic-statistics.html#cb49-4"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="basic-statistics.html#cb50-1"></a><span class="kw">print</span>(data_university)</span></code></pre></div>
 <pre><code>##       names scores
 ## 1    Johnny    9.0
 ## 2     Synne    9.5
@@ -295,42 +299,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 9    Emilie   10.0
 ## 10    Roger    8.5</code></pre>
 <p>Since we now have three data frames to work with, it starts to become a little messy, that’s why I combined all three data frames into one, and added a column specifying the group each individual student belonged to:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="basic-statistics.html#cb51-1"></a><span class="kw">print</span>(data_comb)</span></code></pre></div>
-<pre><code>##        names          group scores
-## 1      Lucas Primary School    7.5
-## 2       Linn Primary School    8.0
-## 3     Thomas Primary School    2.0
-## 4       Sara Primary School    6.5
-## 5       Anna Primary School    9.0
-## 6     Hassan Primary School    5.0
-## 7    Ingvild Primary School    6.0
-## 8    Jostein Primary School    8.0
-## 9       Yuri Primary School    6.5
-## 10      Olav Primary School    7.5
-## 11      Alex    High School    8.5
-## 12   Solveig    High School    9.0
-## 13      Ivar    High School    8.5
-## 14    Yasmin    High School    9.5
-## 15     Tobbe    High School    8.0
-## 16 Christine    High School    8.5
-## 17  Johannes    High School    9.0
-## 18        Mo    High School    8.5
-## 19     Trude    High School    9.5
-## 20    Trygve    High School    8.0
-## 21    Johnny     University    9.0
-## 22     Synne     University    9.5
-## 23    Petter     University   10.0
-## 24     Yusuf     University   10.0
-## 25   Christy     University    9.0
-## 26      Olek     University    9.5
-## 27  Abdullah     University    9.5
-## 28       Jan     University   10.0
-## 29    Emilie     University   10.0
-## 30     Roger     University    8.5</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="basic-statistics.html#cb52-1"></a>data<span class="op">$</span>group &lt;-<span class="st"> &quot;Primary School&quot;</span></span>
+<span id="cb52-2"><a href="basic-statistics.html#cb52-2"></a>data_highschool<span class="op">$</span>group &lt;-<span class="st"> &quot;High School&quot;</span></span>
+<span id="cb52-3"><a href="basic-statistics.html#cb52-3"></a>data_university<span class="op">$</span>group &lt;-<span class="st"> &quot;University&quot;</span></span>
+<span id="cb52-4"><a href="basic-statistics.html#cb52-4"></a></span>
+<span id="cb52-5"><a href="basic-statistics.html#cb52-5"></a>data_comb &lt;-<span class="st"> </span><span class="kw">rbind</span>(data, data_highschool, data_university) <span class="op">%&gt;%</span></span>
+<span id="cb52-6"><a href="basic-statistics.html#cb52-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">group =</span> <span class="kw">factor</span>(group, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;Primary School&quot;</span>, <span class="st">&quot;High School&quot;</span>, <span class="st">&quot;University&quot;</span>)))</span>
+<span id="cb52-7"><a href="basic-statistics.html#cb52-7"></a></span>
+<span id="cb52-8"><a href="basic-statistics.html#cb52-8"></a><span class="kw">print</span>(data_comb)</span></code></pre></div>
+<pre><code>##        names scores          group
+## 1      Lucas    7.5 Primary School
+## 2       Linn    8.0 Primary School
+## 3     Thomas    2.0 Primary School
+## 4       Sara    6.5 Primary School
+## 5       Anna    9.0 Primary School
+## 6     Hassan    5.0 Primary School
+## 7    Ingvild    6.0 Primary School
+## 8    Jostein    8.0 Primary School
+## 9       Yuri    6.5 Primary School
+## 10      Olav    7.5 Primary School
+## 11      Alex    8.5    High School
+## 12   Solveig    9.0    High School
+## 13      Ivar    8.5    High School
+## 14    Yasmin    9.5    High School
+## 15     Tobbe    8.0    High School
+## 16 Christine    8.5    High School
+## 17  Johannes    9.0    High School
+## 18        Mo    8.5    High School
+## 19     Trude    9.5    High School
+## 20    Trygve    8.0    High School
+## 21    Johnny    9.0     University
+## 22     Synne    9.5     University
+## 23    Petter   10.0     University
+## 24     Yusuf   10.0     University
+## 25   Christy    9.0     University
+## 26      Olek    9.5     University
+## 27  Abdullah    9.5     University
+## 28       Jan   10.0     University
+## 29    Emilie   10.0     University
+## 30     Roger    8.5     University</code></pre>
 <p>If we now want to test whether there is a difference in scores between the three groups, we cannot use a T-test anymore. To compare the mean value of multiple groups, we use an Analysis of Variance, better known as an ANOVA. Performing an ANOVA in R is twice as complicated as a T-test in that running an ANOVA takes two lines of code instead of one. First we need to set up the model that we want to test with possible covariates (which we don’t have at the moment). The function for setting up the ANOVA formula is <code>aov()</code>.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="basic-statistics.html#cb53-1"></a>model &lt;-<span class="st"> </span><span class="kw">aov</span>(scores <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="basic-statistics.html#cb54-1"></a>model &lt;-<span class="st"> </span><span class="kw">aov</span>(scores <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span></code></pre></div>
 <p>Then we can run the actual ANOVA command, which is called <code>anova()</code>. This function takes the model and runs the ANOVA statical test. It prints again a list of pretty straight-forward output. In most cases, you’re just interested in the line with the grouping variable, we can ignore the row with “Residuals” for now.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="basic-statistics.html#cb54-1"></a><span class="kw">anova</span>(model)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="basic-statistics.html#cb55-1"></a><span class="kw">anova</span>(model)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: scores
@@ -341,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>We find that there is a significant effect of the grouping variable on the score. And the effect size (denoted by the F-value) is high too. Success! But the output we now have is the bare minimum we need to report in articles etc., but we can do better. Remember the T-test we ran earlier? That was a comparison between primary school students and high school students, but now that we have three groups we can make two more comparisons, [High School-Universtity], and [Primary School-University]. You could do this with independent T-tests, but it’s important to remember that we then effectively run 3 T-tests within the same dataset. A T-test is appropriate when you have independent groups, but when we run this three-way T-test, the tests are not really independent anymore, since each group will appear twice in each comparison. And it’s very imporant that we take this into account. So what do we do when we want to run T-tests within a comparison of three groups to see what drives the effect we observed when we ran the ANOVA? There’s a function called the <code>pairwise.t.test()</code>, which does exactly what we decribed above, but it’s not what we want in this case. What we do want is to run a post-hoc test!</p>
 <p>Again, this is just a simple single line of code. There’s multiple options for post-hoc available in R, but we use the most common one is the Tukey’s Honest Significant Differences test, commonly known as Tukey’s post-hoc test. Tukey’s post-hoc test is only relevant when you want to run pairwise T-tests on all possible combinations of groups, as we do here. The function for this in R is <code>TukeyHSD()</code>. It requires only the ANOVA model we created earlier using the <code>aov()</code> function. Since there’s now three groups in the statistical test, we cannot specify whether we want a one-tailed or two-tailed test. So for comparison, let’s run the T-test again for the comparison between primary school and high school students, but let it be a two-tailed test this time. Let’s do it:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="basic-statistics.html#cb56-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="basic-statistics.html#cb57-1"></a><span class="kw">t.test</span>(data<span class="op">$</span>scores, data_highschool<span class="op">$</span>scores, <span class="dt">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -354,7 +365,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## mean of x mean of y 
 ##       6.6       8.7</code></pre>
 <p>Now that we have that for comparison, let’s now run Tukey’s post-hoc test:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="basic-statistics.html#cb58-1"></a><span class="kw">TukeyHSD</span>(model)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="basic-statistics.html#cb59-1"></a><span class="kw">TukeyHSD</span>(model)</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -371,13 +382,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="correlation" class="section level2">
 <h2><span class="header-section-number">6.3</span> Correlation</h2>
 <p>Now for the last statistical test that is quite common in clinical research, the correlation. Let’s say we take the same dataset, and we also gathered data on the parent’s income. Then we can see how the parents income affect their children’s performance in school. While this may not have a direct effect, wealthy parents might be more able to afford tutoring, and wealthy parents are more likely to live in nice neighbourhoods and provide a good situation for the child to do homework. This means that income might be a proxy for other factors. Let’s say the new data looks like this:</p>
-<pre><code>##  [1] 1850000  650000  650000  400000 1250000  450000  550000 2000000  500000  450000  950000
-## [12]  500000 1500000  950000 1650000 2000000  850000 2000000  750000  700000 1650000  600000
-## [23] 1550000 1500000 1050000 1050000 1800000  900000 1900000  650000</code></pre>
+<pre><code>##  [1] 1850000  650000  650000  400000 1250000  450000  550000 2000000  500000  450000
+## [11]  950000  500000 1500000  950000 1650000 2000000  850000 2000000  750000  700000
+## [21] 1650000  600000 1550000 1500000 1050000 1050000 1800000  900000 1900000  650000</code></pre>
 <p>So now we can run a correlation. The simplest way to do this is by using the <code>cor.test()</code> function. It behaves the same was as the <code>t.test()</code> function, but now it takes two continuous variables as input. Now we use a two-sided hypothesis, and want to use Spearman’s Rank test, which is set in the <code>method</code> option in the <code>cor.test()</code> function. Let’s do it:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="basic-statistics.html#cb61-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in cor.test.default(data_comb$scores, data_comb$income_parents, : Cannot compute exact p-
-## value with ties</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="basic-statistics.html#cb62-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$scores, data_comb$income_parents, : Cannot compute
+## exact p-value with ties</code></pre>
 <pre><code>## 
 ##  Spearman&#39;s rank correlation rho
 ## 
@@ -388,18 +399,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##       rho 
 ## 0.3892626</code></pre>
 <p>So we can see that there is an effect of parent’s income on test scores, and it’s significant too. But we’ve overlooked one big thing, that the students in the dataset that scored the highest were the university students, and it is probable that there might be a bias in the dataset since university students are maybe more likely have wealthy parents, than primary school students or high school students. We want to correct for this. Instead of manually running the test three times, I would recommend to “regress out” the group variable from the scores. We do this by running a linear model with the <code>group</code> as the covariate to regress out and the look at the residual scores. We can “residualize” the data as it’s called by using the <code>lm()</code> function. The input for this is similar to that of the <code>aov()</code> option. Just to compare I will run it twice, once correcting for group, and once without covariate.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="basic-statistics.html#cb64-1"></a>lm_model_nocov &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents, <span class="dt">data =</span> data_comb)</span>
-<span id="cb64-2"><a href="basic-statistics.html#cb64-2"></a>lm_model &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents <span class="op">+</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span>
-<span id="cb64-3"><a href="basic-statistics.html#cb64-3"></a></span>
-<span id="cb64-4"><a href="basic-statistics.html#cb64-4"></a>data_comb<span class="op">$</span>scores_resid_nocov &lt;-<span class="st"> </span>lm_model_nocov<span class="op">$</span>residuals</span>
-<span id="cb64-5"><a href="basic-statistics.html#cb64-5"></a>data_comb<span class="op">$</span>scores_resid &lt;-<span class="st"> </span>lm_model<span class="op">$</span>residuals</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="basic-statistics.html#cb65-1"></a>lm_model_nocov &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents, <span class="dt">data =</span> data_comb)</span>
+<span id="cb65-2"><a href="basic-statistics.html#cb65-2"></a>lm_model &lt;-<span class="st"> </span><span class="kw">lm</span>(scores <span class="op">~</span><span class="st"> </span>income_parents <span class="op">+</span><span class="st"> </span>group, <span class="dt">data =</span> data_comb)</span>
+<span id="cb65-3"><a href="basic-statistics.html#cb65-3"></a></span>
+<span id="cb65-4"><a href="basic-statistics.html#cb65-4"></a>data_comb<span class="op">$</span>scores_resid_nocov &lt;-<span class="st"> </span>lm_model_nocov<span class="op">$</span>residuals</span>
+<span id="cb65-5"><a href="basic-statistics.html#cb65-5"></a>data_comb<span class="op">$</span>scores_resid &lt;-<span class="st"> </span>lm_model<span class="op">$</span>residuals</span></code></pre></div>
 <p>The mean of a residualized variable is by definition 0, but doesn’t have to be normally distributed. In our case here, both residualized variables aren’t actually normally distributed since outliers in the regular data will be outliers in the residualized data too. Let’s check the boxplot:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="basic-statistics.html#cb65-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid)</span></code></pre></div>
-<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="basic-statistics.html#cb66-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid)</span></code></pre></div>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>So now that we’ve “regressed out” the grouping variable, we now have a cleaner set of data to estimate the effect of parental income on test scores with. Let’s do it using the same method we used before:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="basic-statistics.html#cb66-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in cor.test.default(data_comb$scores_resid, data_comb$income_parents, : Cannot compute
-## exact p-value with ties</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="basic-statistics.html#cb67-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>income_parents, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$scores_resid, data_comb$income_parents, : Cannot
+## compute exact p-value with ties</code></pre>
 <pre><code>## 
 ##  Spearman&#39;s rank correlation rho
 ## 
@@ -411,14 +422,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## -0.1027299</code></pre>
 <p>That’s very interesting, it seems that when not correcting for the student’s current educiaton level, there is a significant correlation between income and the student’s test scores, but when you correct for the group the students were in, this relationship disappears. It seems that the grouping variable was driving the assocation in this case.</p>
 <p>Let’s have another look at the residuals. When we regressed out the grouping variable, I also did it once without correcting for the group. I just wanted to show the difference between the two to illustrate the effect that regressing categorical variables has on the data. Hopefully I’ll convince you to correct for variables often and early in the process. Let’s compare the distributions of both the corrected and uncorrected data.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="basic-statistics.html#cb69-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>scores_resid_nocov, <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Corrected&quot;</span>, <span class="st">&quot;Uncorrected&quot;</span>))</span></code></pre></div>
-<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="basic-statistics.html#cb70-1"></a><span class="kw">boxplot</span>(data_comb<span class="op">$</span>scores_resid, data_comb<span class="op">$</span>scores_resid_nocov, <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;Corrected&quot;</span>, <span class="st">&quot;Uncorrected&quot;</span>))</span></code></pre></div>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-60-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The difference is subtle, but you can see that the first boxplot has a narrower confidence interval and smaller error bars. So both boxplots contain data from the same observation, so we can also see how the data points change for each group when we take the uncorrected residualized data and the corrected residualized data. Let’s plot it like a scatter plot and plot the income of the parents on the x-axis, and the residualized scores on the y-axis. The small dots indicate the uncorrected data, and the larger dots indicate the data corrected for group.</p>
-<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="IntroToBasicStatisticsInR_files/figure-html/unnamed-chunk-61-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>You can see that the adjustment direction is consistent across the three groups, but the size of the adjustment varies across individuals. You may also notice that the data points on the left side of the plot are mostly primary school children, while the other two groups are more distributed across the x-axis. Let’s do the statistics again.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="basic-statistics.html#cb70-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>income_parents, data_comb<span class="op">$</span>scores_resid, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in cor.test.default(data_comb$income_parents, data_comb$scores_resid, : Cannot compute
-## exact p-value with ties</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="basic-statistics.html#cb71-1"></a><span class="kw">cor.test</span>(data_comb<span class="op">$</span>income_parents, data_comb<span class="op">$</span>scores_resid, <span class="dt">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning in cor.test.default(data_comb$income_parents, data_comb$scores_resid, : Cannot
+## compute exact p-value with ties</code></pre>
 <pre><code>## 
 ##  Spearman&#39;s rank correlation rho
 ## 
@@ -429,7 +440,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##        rho 
 ## -0.1027299</code></pre>
 <p>Right! So now the significant effect has dissappeared, just because we regressed out the education levels from the scores. Another way of getting to this conclusion is to look at the raw output from the <code>lm()</code> model. Here again the <code>summary()</code> function comes in useful. Remember we saved the output from the <code>lm()</code> function in a variable called <code>lm_model</code>, we can use that now to look at what the linear model said about the predictor of scores.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="basic-statistics.html#cb73-1"></a><span class="kw">summary</span>(lm_model)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="basic-statistics.html#cb74-1"></a><span class="kw">summary</span>(lm_model)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = scores ~ income_parents + group, data = data_comb)
@@ -439,11 +450,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## -4.4772 -0.4321  0.1354  0.6261  2.1954 
 ## 
 ## Coefficients:
-##                  Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)     7.662e+00  5.214e-01  14.696 4.16e-14 ***
-## income_parents  5.457e-07  4.261e-07   1.281    0.212    
-## group.L         1.900e+00  4.004e-01   4.745 6.58e-05 ***
-## group.Q        -4.795e-01  3.849e-01  -1.246    0.224    
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      6.122e+00  5.343e-01  11.458 1.16e-11 ***
+## income_parents   5.457e-07  4.261e-07   1.281  0.21154    
+## groupHigh School 1.931e+00  5.572e-01   3.465  0.00185 ** 
+## groupUniversity  2.687e+00  5.663e-01   4.745 6.58e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 

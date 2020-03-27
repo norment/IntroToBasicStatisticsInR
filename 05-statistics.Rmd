@@ -59,7 +59,7 @@ Back to the result, the ouput from the `t.test()` function is pretty self-explan
 
 Let's say you design a new experiment, and now you also add a third group of students, all university students in the first year of their bachelor in history. Try running the same tests again for this group. You'll find that this set of data is still rougly normally distributed and the mean score lies higher than the other two groups. Their results look like this:
 
-```{r echo=FALSE}
+```{r}
 data_university <- data.frame(
   names = c("Johnny", "Synne", "Petter", "Yusuf", "Christy", "Olek", "Abdullah", "Jan", "Emilie", "Roger"),
   scores = c(9, 9.5, 10, 10, 9, 9.5, 9.5, 10, 10, 8.5)
